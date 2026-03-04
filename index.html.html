@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>For You, My Love 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:#4a9fd4;--blush:#d4eaf7;--gold:#5bc4e8;
+  --deep:#0d2540;--cream:#e8f4fd;--petal:#d0eaf8;
+  --coral:#ff6b6b;--warm:#b76e79;
+}
+
+/* Loading Screen */
+#loader{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:var(--deep);z-index:9999;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  color:var(--gold);font-family:'Dancing Script',cursive;
+  font-size:1.8rem;transition:opacity 0.5s ease;
+}
+.loader-hearts{font-size:3rem;margin-bottom:1rem;animation:pulse 1.5s ease-in-out infinite}
+
+/* ── iOS Safari height fix ── */
+html{
+  height:100%;
+  height:-webkit-fill-available;
+}
+body{
+  height:100%;
+  min-height:100vh;
+  min-height:-webkit-fill-available;
+  font-family:'Cormorant Garamond',serif;
+  background:var(--cream);
+  overflow:hidden;
+  position:fixed;
+  width:100%;
+  -webkit-text-size-adjust:100%;
+}
+
+/* PARTICLES */
+#particles{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0}
+.heart-p{position:absolute;animation:floatUp linear infinite;opacity:0;-webkit-user-select:none;user-select:none}
+@keyframes floatUp{0%{transform:translateY(110vh) rotate(0deg);opacity:.7}100%{transform:translateY(-10vh) rotate(20deg);opacity:0}}
+
+/* SCREENS */
+.screen{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  padding:1.5rem;
+  padding-top:max(1.5rem, env(safe-area-inset-top));
+  padding-bottom:max(1.5rem, env(safe-area-inset-bottom));
+  -webkit-transition:opacity .7s ease,-webkit-transform .7s ease;
+  transition:opacity .7s ease,transform .7s ease;
+  z-index:10;
+}
+.screen.hidden{opacity:0;pointer-events:none;-webkit-transform:scale(.96);transform:scale(.96)}
+
+/* DARK BG */
+.dark-bg{background:linear-gradient(160deg,#0a1e3a 0%,#0d3060 50%,#0a1e3a 100%)}
+.dark-bg::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c9a84c' fill-opacity='.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+
+/* LOCK */
+#lockScreen{text-align:center}
+.lock-logo{font-size:3.8rem;margin-bottom:.8rem;animation:pulse 2s ease-in-out infinite;position:relative;z-index:1}
+@keyframes pulse{0%,100%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(1.12);transform:scale(1.12)}}
+.lock-title{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(1.8rem,6vw,3rem);margin-bottom:.3rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lock-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blush);font-size:1.05rem;margin-bottom:1.8rem;opacity:.85;position:relative;z-index:1}
+.code-dots{display:-webkit-flex;display:flex;gap:1rem;-webkit-justify-content:center;justify-content:center;margin-bottom:1.6rem;position:relative;z-index:1}
+.dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--gold);background:transparent;-webkit-transition:background .2s,-webkit-transform .2s;transition:background .2s,transform .2s}
+.dot.filled{background:var(--gold);-webkit-transform:scale(1.15);transform:scale(1.15)}
+.keypad{display:grid;grid-template-columns:repeat(3,68px);gap:9px;position:relative;z-index:1}
+.key{
+  width:68px;height:68px;border-radius:50%;
+  border:1.5px solid rgba(91,196,232,.4);background:rgba(255,255,255,.05);
+  color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.5rem;cursor:pointer;
+  -webkit-transition:all .15s;transition:all .15s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-appearance:none;appearance:none;
+  position:relative;overflow:hidden;
+}
+.key::after{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.2);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s}
+.key:active::after{width:100%;height:100%}
+.key:active{background:rgba(91,196,232,.2);border-color:var(--gold);-webkit-transform:scale(.95);transform:scale(.95)}
+.key.del{font-size:1.1rem;color:var(--blush)}.key.empty{visibility:hidden}
+.shake{animation:shake .4s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+
+/* SHARED GAME */
+.game-screen{background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0}
+.game-title{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(1.25rem,5vw,1.8rem);line-height:1.2;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.game-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(242,212,215,.85);font-size:.88rem;position:relative;z-index:1}
+.game-score{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.1rem;letter-spacing:.05em;position:relative;z-index:1}
+.game-win{display:none;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.6rem}
+.game-win.show{display:-webkit-flex;display:flex}
+.win-emojis{font-size:3rem;animation:winBounce .6s ease-in-out infinite alternate}
+@keyframes winBounce{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-14px) rotate(5deg)}}
+.game-win h2{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(1.4rem,5vw,2rem)}
+.game-win p{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blush);font-size:.92rem}
+.g-btn{
+  margin-top:.5rem;padding:.75rem 2rem;border:none;border-radius:50px;
+  background:linear-gradient(135deg,var(--rose) 0%,#1a6aaa 100%);color:white;
+  font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:.08em;cursor:pointer;
+  box-shadow:0 4px 20px rgba(74,159,212,.4);
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.g-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(74,159,212,.6)}
+.g-btn:active{transform:translateY(0) scale(0.98)}
+
+/* STORY SCREEN */
+#storyScreen{
+  background:linear-gradient(160deg,#0a1628 0%,#0d2547 50%,#0a1628 100%);
+  padding:0;overflow:hidden;
+}
+#storyScreen::before{
+  content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%234a90d9' fill-opacity='.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.story-inner{
+  position:relative;z-index:1;
+  width:100%;height:100%;
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-align-items:center;align-items:center;
+  overflow-y:scroll;-webkit-overflow-scrolling:touch;
+  padding:env(safe-area-inset-top,1.2rem) 1.4rem env(safe-area-inset-bottom,1.2rem);
+}
+.story-header{
+  text-align:center;padding:1.2rem 0 .6rem;
+}
+.story-header h1{
+  font-family:'Dancing Script',cursive;
+  color:#60b4ff;
+  font-size:clamp(1.6rem,6vw,2.4rem);
+  line-height:1.2;margin-bottom:.3rem;
+  background:linear-gradient(135deg,#60b4ff,var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.story-header p{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;color:#a8d4ff;
+  font-size:.9rem;opacity:.8;
+}
+.story-chapters{
+  width:100%;max-width:480px;
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  gap:1rem;padding-bottom:1rem;
+}
+.chapter{
+  background:rgba(255,255,255,.06);
+  border:1.5px solid rgba(96,180,255,.2);
+  border-radius:16px;padding:1rem 1.1rem;
+  position:relative;overflow:hidden;
+  transition:transform 0.3s ease,box-shadow 0.3s ease;
+}
+.chapter:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(96,180,255,.15)}
+.chapter::before{
+  content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+  background:linear-gradient(180deg,#60b4ff,#3a7bd5);border-radius:4px 0 0 4px;
+}
+.ch-num{
+  font-family:'Dancing Script',cursive;
+  color:#60b4ff;font-size:.8rem;letter-spacing:.15em;
+  text-transform:uppercase;margin-bottom:.2rem;opacity:.7;
+}
+.ch-emoji{font-size:2rem;margin-bottom:.4rem;display:block;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.ch-title{
+  font-family:'Dancing Script',cursive;
+  color:#a8d4ff;font-size:clamp(1.1rem,4vw,1.4rem);
+  margin-bottom:.5rem;line-height:1.2;
+}
+.ch-text{
+  font-family:'Cormorant Garamond',serif;
+  color:#cce4ff;font-size:clamp(.92rem,2.6vw,1.05rem);
+  line-height:1.75;
+}
+.ch-text .punchline{
+  display:block;margin-top:.5rem;
+  font-family:'Dancing Script',cursive;
+  color:#60b4ff;font-size:clamp(1rem,3vw,1.2rem);
+}
+.story-start-btn{
+  margin:1rem 0 .5rem;
+  width:100%;max-width:380px;
+  padding:.9rem;border:none;border-radius:50px;
+  background:linear-gradient(135deg,#3a7bd5 0%,#1a4fa0 100%);
+  color:white;font-family:'Cormorant Garamond',serif;
+  font-size:1.05rem;letter-spacing:.1em;cursor:pointer;
+  box-shadow:0 4px 24px rgba(58,123,213,.5);
+  -webkit-appearance:none;appearance:none;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.story-start-btn:hover{transform:translateY(-2px);box-shadow:0 6px 30px rgba(58,123,213,.6)}
+.story-start-btn:active{-webkit-transform:scale(.97);transform:scale(.97)}
+.story-stars{
+  color:#60b4ff;letter-spacing:8px;font-size:.9rem;
+  text-align:center;margin-bottom:.6rem;opacity:.6;
+}
+
+#mazePlayArea{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.6rem}
+#mazeCanvas{
+  border:2.5px solid var(--gold);border-radius:10px;display:block;
+  touch-action:none;-webkit-tap-highlight-color:transparent;
+  box-shadow:0 0 20px rgba(91,196,232,.3);
+}
+.dpad{display:grid;grid-template-areas:'. up .' 'left . right' '. down .';grid-template-columns:repeat(3,48px);grid-template-rows:repeat(3,48px);gap:4px}
+.db{
+  background:rgba(91,196,232,.15);border:1.5px solid rgba(91,196,232,.45);border-radius:10px;
+  color:var(--gold);font-size:1.35rem;cursor:pointer;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-user-select:none;user-select:none;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  -webkit-appearance:none;appearance:none;
+  transition:all 0.15s;
+}
+.db:active{background:rgba(91,196,232,.38);-webkit-transform:scale(.9);transform:scale(.9)}
+.db.up{grid-area:up}.db.lf{grid-area:left}.db.rt{grid-area:right}.db.dn{grid-area:down}
+
+/* WHACK */
+#whackPlayArea{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.7rem}
+.whack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px}
+.bush{
+  width:clamp(68px,21vw,86px);height:clamp(68px,21vw,86px);border-radius:50%;
+  background:rgba(25,75,25,.6);border:2.5px solid rgba(80,180,70,.3);
+  font-size:clamp(1.8rem,7.5vw,2.7rem);
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  cursor:pointer;-webkit-user-select:none;user-select:none;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  -webkit-appearance:none;appearance:none;
+  transition:all 0.15s;
+}
+.bush:active{-webkit-transform:scale(.88);transform:scale(.88)}
+.bush.lit{border-color:var(--gold);background:rgba(40,110,40,.8);box-shadow:0 0 15px rgba(91,196,232,.4)}
+.bush.hit{border-color:#ffdd55;background:rgba(255,200,30,.25);animation:pop 0.3s ease}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+
+/* CATCH */
+#catchPlayArea{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.5rem}
+#catchArea{
+  position:relative;overflow:hidden;
+  width:min(340px,96vw);height:min(230px,38vh);
+  background:rgba(0,0,0,.35);border:2px solid rgba(91,196,232,.35);border-radius:14px;
+  touch-action:none;-webkit-user-select:none;user-select:none;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.3);
+}
+#catchRaccoon{position:absolute;top:6px;font-size:clamp(1.2rem,5vw,1.6rem);animation:catRock .9s ease-in-out infinite alternate;-webkit-transform-origin:center bottom;transform-origin:center bottom}
+@keyframes catRock{from{-webkit-transform:rotate(-18deg);transform:rotate(-18deg)}to{-webkit-transform:rotate(18deg);transform:rotate(18deg)}}
+#catchCat{position:absolute;bottom:4px;font-size:clamp(1.4rem,6vw,1.8rem);filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.fh{position:absolute;font-size:1.2rem;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.2))}
+.catch-ctrl{display:-webkit-flex;display:flex;gap:16px;margin-top:4px}
+.cbt{
+  width:min(90px,40vw);height:64px;border-radius:16px;
+  background:rgba(91,196,232,.18);border:2px solid rgba(91,196,232,.5);
+  color:var(--gold);font-size:1.6rem;cursor:pointer;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-user-select:none;user-select:none;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+  -webkit-appearance:none;appearance:none;
+  transition:all 0.15s;
+}
+.cbt:active{background:rgba(91,196,232,.42);-webkit-transform:scale(.9);transform:scale(.9)}
+
+/* PHOTO SCREEN - ADAPTIVE ASPECT RATIO */
+#photoScreen{background:var(--cream);padding:0}
+.page{
+  display:none;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:space-between;justify-content:space-between;
+  width:100%;height:100%;padding:1.4rem 1.4rem 1.1rem;
+  padding-bottom:max(1.1rem, env(safe-area-inset-bottom));
+}
+.page.active{display:-webkit-flex;display:flex}
+.page-top{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;width:100%;max-width:500px}
+.page-counter{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--rose);font-size:.88rem;letter-spacing:.08em}
+.page-hearts{font-size:.85rem;letter-spacing:2px;color:var(--coral)}
+
+/* ADAPTIVE PHOTO FRAME - No fixed aspect ratio */
+.photo-frame{
+  width:100%;
+  max-width:420px;
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+  flex-shrink:0;
+  margin:.5rem auto;
+  box-shadow:0 4px 30px rgba(13,37,64,.18),0 0 0 8px white,0 0 0 9px rgba(91,196,232,.25);
+  transition:transform 0.3s ease,box-shadow 0.3s ease;
+  height:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f0f0f0;
+}
+
+.photo-frame::before{
+  display:none;
+}
+
+.photo-frame img,.photo-frame .photo-placeholder{
+  position:relative;
+  width:100%;
+  display:block;
+}
+
+.photo-frame img{
+  width:100%;
+  height:auto;
+  max-height:60vh;
+  object-fit:contain;
+  border-radius:4px;
+}
+
+.photo-frame img[src=""]{
+  display:none !important;
+}
+
+.upload-frame{
+  cursor:default;
+}
+
+.upload-frame::after{
+  content:'✏️ tap to change';
+  position:absolute;
+  bottom:6px;
+  right:8px;
+  background:rgba(0,0,0,.55);
+  color:#fff;
+  font-size:.65rem;
+  padding:2px 7px;
+  border-radius:20px;
+  font-family:'Cormorant Garamond',serif;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s;
+  display:none;
+}
+
+.upload-frame.has-photo::after{
+  opacity:1;
+}
+
+.photo-placeholder{
+  display:none;
+  position:relative;
+  width:100%;
+  height:280px;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:2.5rem;
+  gap:.4rem;
+  color:white;
+  text-align:center;
+  font-family:'Cormorant Garamond',serif;
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .upload-frame{
+    cursor:pointer;
+  }
+  
+  .upload-frame::after{
+    display:block;
+  }
+  
+  .photo-placeholder{
+    display:flex;
+  }
+  
+  .photo-placeholder .label{
+    display:block;
+  }
+}
+
+@media (max-width: 1023px), (hover: none), (pointer: coarse) {
+  .upload-frame{
+    cursor:default;
+    pointer-events:none;
+  }
+  
+  .upload-frame::after{
+    display:none !important;
+  }
+  
+  .photo-placeholder{
+    display:none !important;
+  }
+  
+  .photo-frame:not(.has-photo){
+    background:linear-gradient(135deg,var(--blush),var(--petal));
+    min-height:200px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  
+  .photo-frame:not(.has-photo)::before{
+    content:'💕';
+    font-size:3rem;
+    opacity:0.5;
+    display:block;
+    position:static;
+  }
+  
+  .photo-frame.has-photo{
+    background:transparent;
+  }
+  
+  .photo-frame.has-photo::before{
+    display:none;
+  }
+}
+
+@media (hover: hover) {
+  .photo-frame:hover{
+    transform:translateY(-5px) scale(1.02);
+    box-shadow:0 12px 40px rgba(13,37,64,.25),0 0 0 8px white,0 0 0 9px rgba(91,196,232,.35);
+  }
+}
+
+.caption-area{
+  text-align:center;
+  max-width:420px;
+  width:100%;
+  padding:0 .5rem;
+  margin-top:0.5rem;
+}
+.caption-date{
+  font-family:'Dancing Script',cursive;
+  color:var(--gold);
+  font-size:1.05rem;
+  margin-bottom:.25rem;
+  background:linear-gradient(135deg,var(--gold),var(--coral));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text
+}
+.caption-text{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  color:var(--deep);
+  font-size:clamp(.88rem,2.5vw,1.1rem);
+  line-height:1.6
+}
+.nav-btn{
+  width:100%;
+  max-width:420px;
+  padding:.82rem;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,var(--rose) 0%,#1a6aaa 100%);
+  color:white;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.02rem;
+  letter-spacing:.1em;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(74,159,212,.4);
+  margin-top:.4rem;
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  transition:all 0.2s;
+}
+.nav-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 25px rgba(74,159,212,.6)
+}
+.nav-btn:active{
+  -webkit-transform:scale(.98);
+  transform:scale(.98)
+}
+
+@media (max-width: 768px) {
+  .photo-frame {
+    max-width: 100%;
+    margin: 0.3rem auto;
+  }
+  
+  .photo-frame img {
+    max-height: 50vh;
+    width: 100%;
+    object-fit: contain;
+  }
+  
+  .caption-area {
+    margin-top: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .nav-btn {
+    margin-top: 0.8rem;
+  }
+}
+
+/* LETTER PAGE */
+#pgLetter{background:var(--petal);overflow-y:scroll;-webkit-overflow-scrolling:touch;justify-content:flex-start}
+.letter-wrap{width:100%;max-width:480px;padding:1.4rem 1.2rem 2rem;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column}
+.letter-badge{text-align:center;font-family:'Dancing Script',cursive;color:var(--gold);font-size:.88rem;letter-spacing:.15em;margin-bottom:.4rem;opacity:.75}
+.letter-deco{text-align:center;color:var(--rose);font-size:1.3rem;letter-spacing:8px;margin-bottom:.5rem}
+.letter-heading{font-family:'Dancing Script',cursive;color:var(--deep);font-size:clamp(1.5rem,5vw,2.1rem);text-align:center;margin-bottom:.9rem;line-height:1.2;background:linear-gradient(135deg,var(--deep),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(.95rem,2.7vw,1.15rem);line-height:1.85;color:var(--deep)}
+.letter-body p{margin-bottom:.9rem}
+.letter-drop{float:left;font-family:'Playfair Display',serif;color:var(--rose);font-size:3.4rem;line-height:.75;margin-right:.1rem;margin-top:.12rem}
+.letter-sig{font-family:'Dancing Script',cursive;color:var(--rose);font-size:clamp(1.2rem,4vw,1.6rem);text-align:right;margin-top:.4rem;margin-bottom:.8rem}
+.letter-deco-b{text-align:center;color:var(--gold);font-size:.95rem;letter-spacing:6px;margin-bottom:.9rem}
+.letter-nav{
+  width:100%;
+  padding:.82rem;
+  border:none;
+  border-radius:50px;
+  background:linear-gradient(135deg,var(--rose) 0%,#1a6aaa 100%);
+  color:white;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.02rem;
+  letter-spacing:.08em;
+  cursor:pointer;
+  box-shadow:0 4px 20px rgba(74,159,212,.4);
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  transition:all 0.2s;
+}
+.letter-nav:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 25px rgba(74,159,212,.6)
+}
+
+/* FINAL */
+#finalScreen{text-align:center}
+.final-emoji{font-size:3.5rem;margin-bottom:1rem;animation:flt 3s ease-in-out infinite;position:relative;z-index:1}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.final-title{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(2rem,7vw,3.2rem);line-height:1.2;margin-bottom:1rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.final-msg{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blush);font-size:clamp(1rem,2.5vw,1.2rem);line-height:1.8;max-width:380px;margin:0 auto 2rem;position:relative;z-index:1}
+.final-sig{font-family:'Dancing Script',cursive;color:var(--gold);font-size:1.6rem;margin-bottom:2rem;position:relative;z-index:1}
+.restart-btn{
+  background:transparent;
+  border:1.5px solid rgba(91,196,232,.5);
+  color:var(--blush);
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:.95rem;
+  padding:.6rem 2rem;
+  border-radius:50px;
+  cursor:pointer;
+  letter-spacing:.05em;
+  position:relative;
+  z-index:1;
+  -webkit-appearance:none;
+  appearance:none;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  transition:all 0.2s;
+}
+.restart-btn:hover{
+  background:rgba(91,196,232,.1);
+  border-color:var(--gold);
+  color:var(--gold)
+}
+
+/* QR - Hidden on mobile */
+#qrTool{position:fixed;bottom:1.2rem;right:1.2rem;z-index:9999;bottom:max(1.2rem,env(safe-area-inset-bottom))}
+#qrToggle{width:48px;height:48px;border-radius:50%;background:var(--deep);border:2px solid var(--gold);color:var(--gold);font-size:1.3rem;cursor:pointer;display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,.3);-webkit-appearance:none;appearance:none;transition:all 0.2s}
+#qrToggle:hover{transform:scale(1.1);background:var(--gold);color:var(--deep)}
+#qrPanel{display:none;position:absolute;bottom:60px;right:0;background:white;border-radius:16px;padding:1.2rem;box-shadow:0 8px 40px rgba(13,37,64,.25);width:280px;text-align:center}
+#qrPanel.open{display:block}
+#qrPanel h3{font-family:'Playfair Display',serif;color:var(--deep);font-size:1rem;margin-bottom:.6rem}
+#qrPanel p{font-family:'Cormorant Garamond',serif;color:#888;font-size:.82rem;margin-bottom:.8rem;line-height:1.4}
+#urlInput{width:100%;border:1.5px solid #e0c9cb;border-radius:8px;padding:.5rem .7rem;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--deep);outline:none;margin-bottom:.6rem;-webkit-appearance:none;appearance:none}
+#urlInput:focus{border-color:var(--rose)}
+#genQrBtn{background:var(--rose);color:white;border:none;border-radius:8px;padding:.5rem 1.2rem;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:.95rem;width:100%;margin-bottom:.8rem;-webkit-appearance:none;appearance:none;touch-action:manipulation;transition:all 0.2s}
+#genQrBtn:hover{background:#1a6aaa;transform:translateY(-1px)}
+#genQrBtn:active{background:#1a6aaa;transform:translateY(0)}
+#qrcode{display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center}
+#qrcode img,#qrcode canvas{border-radius:8px}
+
+/* Photo Upload Helper - Desktop only */
+#photoHelper{
+  position:fixed;
+  top:1.2rem;
+  left:1.2rem;
+  z-index:9998;
+  background:rgba(13,37,64,.9);
+  color:var(--gold);
+  padding:.8rem 1rem;
+  border-radius:12px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:.85rem;
+  max-width:280px;
+  display:none;
+  border:1px solid rgba(91,196,232,.3);
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+#photoHelper.show{display:block}
+#photoHelper h4{margin-bottom:.5rem;color:var(--coral)}
+#photoHelper ol{margin-left:1.2rem;line-height:1.6}
+#photoHelper li{margin-bottom:.3rem}
+#photoHelper button{
+  margin-top:.5rem;
+  background:var(--rose);
+  color:white;
+  border:none;
+  padding:.4rem 1rem;
+  border-radius:20px;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+@media (max-width: 1023px), (hover: none), (pointer: coarse) {
+  #photoHelper {
+    display:none !important;
+  }
+}
+
+/* ANIMATIONS */
+@-webkit-keyframes fadeInUp{from{opacity:0;-webkit-transform:translateY(20px);transform:translateY(20px)}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.page.active .photo-frame,.page.active .caption-area,.page.active .nav-btn{-webkit-animation:fadeInUp .6s ease both;animation:fadeInUp .6s ease both}
+.page.active .caption-area{-webkit-animation-delay:.15s;animation-delay:.15s}
+.page.active .nav-btn{-webkit-animation-delay:.25s;animation-delay:.25s}
+
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+}
+
+@media(max-height:640px){
+  .photo-frame{max-width:220px}
+  .lock-logo{font-size:2.4rem}
+  .keypad{gap:7px}.key{width:58px;height:58px}
+  .bush{width:60px;height:60px}
+  #catchArea{height:170px}
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loader">
+  <div class="loader-hearts">💕</div>
+  <div>Loading your surprise...</div>
+</div>
+
+<!-- Photo Upload Helper - Desktop Only -->
+<div id="photoHelper">
+  <h4>📸 How to Add Photos</h4>
+  <ol>
+    <li>Go to <strong>catbox.moe</strong> (recommended)</li>
+    <li>Upload your photo</li>
+    <li>Copy the direct URL</li>
+    <li>Paste in PHOTO_URLS array</li>
+  </ol>
+  <button onclick="document.getElementById('photoHelper').classList.remove('show')">Got it!</button>
+</div>
+
+<div id="particles"></div>
+
+<!-- ══════════════════════
+     LOCK SCREEN
+══════════════════════ -->
+<div class="screen dark-bg" id="lockScreen">
+  <div class="lock-logo">🔒</div>
+  <h1 class="lock-title">A Secret Just For You</h1>
+  <p class="lock-sub">Enter our special code to unlock your surprise</p>
+  <div class="code-dots" id="codeDots">
+    <div class="dot" id="d0"></div><div class="dot" id="d1"></div>
+    <div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+  </div>
+  <div class="keypad">
+    <button class="key" onclick="press(1)">1</button><button class="key" onclick="press(2)">2</button><button class="key" onclick="press(3)">3</button>
+    <button class="key" onclick="press(4)">4</button><button class="key" onclick="press(5)">5</button><button class="key" onclick="press(6)">6</button>
+    <button class="key" onclick="press(7)">7</button><button class="key" onclick="press(8)">8</button><button class="key" onclick="press(9)">9</button>
+    <button class="key empty"></button><button class="key" onclick="press(0)">0</button><button class="key del" onclick="delKey()">⌫</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     STORY SCREEN
+══════════════════════ -->
+<div class="screen hidden" id="storyScreen">
+  <div class="story-inner">
+    <div class="story-header">
+      <h1>📖 The Tale of 🐱 & 🦝</h1>
+      <p>A very important story. Very serious. 100% true.</p>
+    </div>
+
+    <div class="story-chapters">
+
+      <div class="chapter">
+        <div class="ch-num">Chapter 1</div>
+        <span class="ch-emoji">🌅</span>
+        <div class="ch-title">The Great Morning Chase</div>
+        <p class="ch-text">
+          Every single morning, the cat wakes up, stretches dramatically, and announces:
+          <em>"TODAY IS THE DAY I CATCH THE RACCOON."</em><br><br>
+          The raccoon, eating stolen cereal on the roof, hears this, looks directly at the cat,
+          and waves. Then eats another spoonful. The cat trips over its own tail running outside.
+          The raccoon is already gone.
+          <span class="punchline">🥄 Gone. With the cereal. Again.</span>
+        </p>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-num">Chapter 2</div>
+        <span class="ch-emoji">🪤</span>
+        <div class="ch-title">Operation Sneaky Trap</div>
+        <p class="ch-text">
+          The cat spent 3 hours building an elaborate trap: a cardboard box, a stick,
+          a string, and a piece of cheese as bait.<br><br>
+          The raccoon walked up, read the hand-written sign that said
+          <em>"DEFINITELY NOT A TRAP,"</em> took the cheese, left a tiny thank-you note,
+          and disappeared into the bushes. The cat was somehow still surprised.
+          <span class="punchline">📝 The note said: "5 stars, very generous." 🦝</span>
+        </p>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-num">Chapter 3</div>
+        <span class="ch-emoji">🚀</span>
+        <div class="ch-title">The Speed Problem</div>
+        <p class="ch-text">
+          Scientists have studied the raccoon's escape speed and concluded it is
+          <em>"technically impossible."</em><br><br>
+          The cat can run at full speed, turn a corner, and somehow the raccoon is
+          already sitting there eating a sandwich, looking bored. The cat once
+          chased the raccoon around a tree for 45 minutes. The raccoon had been
+          sitting at home watching TV for 44 of those minutes.
+          <span class="punchline">🥪 Nobody knows how. Not even the raccoon.</span>
+        </p>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-num">Chapter 4</div>
+        <span class="ch-emoji">🤝</span>
+        <div class="ch-title">The Peace Treaty (That Lasted 4 Minutes)</div>
+        <p class="ch-text">
+          One day the cat proposed a truce. They shook hands. They agreed:
+          no more chasing, no more stealing snacks. They even took a photo together.<br><br>
+          Four minutes later, the raccoon stole the cat's tuna sandwich right out
+          of its paw, pointed finger guns, winked, and backflipped over the fence.
+          <span class="punchline">📸 The photo is still on the fridge. Mocking the cat daily.</span>
+        </p>
+      </div>
+
+      <div class="chapter">
+        <div class="ch-num">Chapter 5</div>
+        <span class="ch-emoji">💙</span>
+        <div class="ch-title">The Twist Nobody Expected</div>
+        <p class="ch-text">
+          Here's the thing though — the cat never actually wanted to <em>catch</em> the raccoon.
+          It just liked having somewhere to run to every morning.<br><br>
+          And the raccoon? It always circled back. Left snacks on the doorstep.
+          Saved a seat. Made sure the cat was never really alone.<br><br>
+          Some chases aren't about catching. They're about always finding your way
+          back to each other. 🐱🦝
+          <span class="punchline">💙 Even if one of you keeps stealing the cereal.</span>
+        </p>
+      </div>
+
+    </div>
+
+    <p class="story-stars">✦ ✦ ✦</p>
+    <button class="story-start-btn" onclick="goFromStory()">
+      Let the adventure begin! 🎮
+    </button>
+
+  </div>
+</div>
+
+
+<div class="screen game-screen hidden" id="mazeScreen">
+  <div id="mazePlayArea">
+    <p class="game-title">🐱 Find your way to the raccoon!</p>
+    <p class="game-sub">Navigate the maze — lots of dead ends! 🦝</p>
+    <canvas id="mazeCanvas"></canvas>
+    <div class="dpad">
+      <button class="db up"  onclick="movePlayer(-1,0)">↑</button>
+      <button class="db lf"  onclick="movePlayer(0,-1)">←</button>
+      <button class="db rt"  onclick="movePlayer(0,1)">→</button>
+      <button class="db dn"  onclick="movePlayer(1,0)">↓</button>
+    </div>
+  </div>
+  <div class="game-win" id="mazeWin">
+    <div class="win-emojis">🐱🦝</div>
+    <h2>You found each other!</h2>
+    <p>The raccoon ran off again! Chase it! 😅</p>
+    <button class="g-btn" onclick="goToWhack()">Next challenge →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     GAME 2 — WHACK-A-RACCOON
+══════════════════════ -->
+<div class="screen game-screen hidden" id="whackScreen">
+  <div id="whackPlayArea">
+    <p class="game-title">🐱 The raccoon is hiding!</p>
+    <p class="game-sub">Tap the bush where 🦝 peeks — catch 8! Gets faster… 👀</p>
+    <p class="game-score">Found: <span id="whackScore">0</span> / 8</p>
+    <div class="whack-grid" id="whackGrid"></div>
+  </div>
+  <div class="game-win" id="whackWin">
+    <div class="win-emojis">🐱🦝</div>
+    <h2>Got you, raccoon!</h2>
+    <p>One last game and then your real surprise awaits… 🍓</p>
+    <button class="g-btn" onclick="goToCatch()">Last challenge →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     GAME 3 — HEART CATCHER
+══════════════════════ -->
+<div class="screen game-screen hidden" id="catchScreen">
+  <div id="catchPlayArea">
+    <p class="game-title">🐱 Catch the hearts!</p>
+    <p class="game-sub">Move 🐱 left/right to catch the falling ❤️ — catch 10!</p>
+    <p class="game-score">Caught: <span id="catchScore">0</span> / 10</p>
+    <div id="catchArea">
+      <div id="catchRaccoon">🦝</div>
+      <div id="catchCat">🐱</div>
+    </div>
+    <div class="catch-ctrl">
+      <button class="cbt" id="btnLeft"  >←</button>
+      <button class="cbt" id="btnRight" >→</button>
+    </div>
+  </div>
+  <div class="game-win" id="catchWin">
+    <div class="win-emojis">🐱❤️🦝</div>
+    <h2>All hearts caught!</h2>
+    <p>Now for your real surprise… 💕</p>
+    <button class="g-btn" onclick="enterPhotos()">Open your surprise 🎁</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     PHOTO SLIDESHOW (12 photos + letter)
+══════════════════════ -->
+<div class="screen hidden" id="photoScreen">
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="pg0">
+    <div class="page-top"><span class="page-counter">Memory 1 / 12</span><span class="page-hearts">❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(0)">
+      <img id="photo0" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph0" style="background:linear-gradient(135deg,#c0676b,#8c4649)">📸<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">The day we met 🌸</p><p class="caption-text">"The moment I saw you, I knew my life would never be the same. You walked in and my heart decided — it's you."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="pg1">
+    <div class="page-top"><span class="page-counter">Memory 2 / 12</span><span class="page-hearts">❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(1)">
+      <img id="photo1" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph1" style="background:linear-gradient(135deg,#d4a056,#9a6a2a)">🌅<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Our first date 🌙</p><p class="caption-text">"I was nervous. You laughed at everything I said. By the end of the night, I knew I never wanted to stop making you smile."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" id="pg2">
+    <div class="page-top"><span class="page-counter">Memory 3 / 12</span><span class="page-hearts">❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(2)">
+      <img id="photo2" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph2" style="background:linear-gradient(135deg,#6b9ac0,#3a5f80)">🏖️<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Adventures together 🗺️</p><p class="caption-text">"Every place becomes my favourite when you're standing next to me. You make ordinary moments feel like magic."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page" id="pg3">
+    <div class="page-top"><span class="page-counter">Memory 4 / 12</span><span class="page-hearts">❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(3)">
+      <img id="photo3" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph3" style="background:linear-gradient(135deg,#9b6bc0,#5e3a80)">🎉<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Celebrating us 🥂</p><p class="caption-text">"In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page" id="pg4">
+    <div class="page-top"><span class="page-counter">Memory 5 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(4)">
+      <img id="photo4" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph4" style="background:linear-gradient(135deg,#60b89a,#326b57)">☕<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Quiet days with you 🌿</p><p class="caption-text">"The best moments aren't the big ones. It's you, laughing too loud. It's quiet mornings. It's just being near you."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 6 -->
+  <div class="page" id="pg5">
+    <div class="page-top"><span class="page-counter">Memory 6 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(5)">
+      <img id="photo5" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph5" style="background:linear-gradient(135deg,#c0676b,#6b3035)">💑<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Us, always 💍</p><p class="caption-text">"I choose you. Today, tomorrow, and every day after. You are my home, my calm, my everything."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 7 -->
+  <div class="page" id="pg6">
+    <div class="page-top"><span class="page-counter">Memory 7 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(6)">
+      <img id="photo6" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph6" style="background:linear-gradient(135deg,#e88c5a,#a05030)">🌄<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Sunsets with you 🌅</p><p class="caption-text">"Every sunset is more beautiful when I get to watch it with you. You make the world glow a little warmer."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 8 -->
+  <div class="page" id="pg7">
+    <div class="page-top"><span class="page-counter">Memory 8 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(7)">
+      <img id="photo7" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph7" style="background:linear-gradient(135deg,#5a8fe8,#2a4fa0)">🍕<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Our little rituals 🍽️</p><p class="caption-text">"The food always tastes better. The music sounds sweeter. Everything is simply better — because you're there."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 9 -->
+  <div class="page" id="pg8">
+    <div class="page-top"><span class="page-counter">Memory 9 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(8)">
+      <img id="photo8" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph8" style="background:linear-gradient(135deg,#c05ab8,#6b2865)">🎶<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Dancing in the kitchen 🎵</p><p class="caption-text">"Some of the most precious moments have no filter, no audience — just you, me, and our song playing softly."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 10 -->
+  <div class="page" id="pg9">
+    <div class="page-top"><span class="page-counter">Memory 10 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(9)">
+      <img id="photo9" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph9" style="background:linear-gradient(135deg,#5abea8,#2a6b5c)">🌊<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Getting lost together 🗺️</p><p class="caption-text">"We've gotten lost more times than I can count. But somewhere with you always feels exactly like where I'm meant to be."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 11 -->
+  <div class="page" id="pg10">
+    <div class="page-top"><span class="page-counter">Memory 11 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(10)">
+      <img id="photo10" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph10" style="background:linear-gradient(135deg,#c9a84c,#7a5f1a)">🌙<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Late nights talking 🌠</p><p class="caption-text">"We talk for hours and still have more to say. You are the one person I never want to stop knowing more deeply."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+  </div>
+
+  <!-- PAGE 12 -->
+  <div class="page" id="pg11">
+    <div class="page-top"><span class="page-counter">Memory 12 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="photo-frame upload-frame" onclick="pickPhoto(11)">
+      <img id="photo11" src="" alt="" style="display:none">
+      <div class="photo-placeholder" id="ph11" style="background:linear-gradient(135deg,#c0676b,#3b1f22)">💞<span class="label">Tap to add photo</span></div>
+    </div>
+    <div class="caption-area"><p class="caption-date">Our forever 💌</p><p class="caption-text">"If I could live this life a thousand times, I would choose you in every single one. Happy Anniversary, my love."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Read my letter to you 💌</button>
+  </div>
+
+  <!-- ══ LETTER PAGE (all text) ══ -->
+  <div class="page" id="pgLetter" style="overflow-y:auto;justify-content:flex-start;background:var(--petal)">
+    <div class="letter-wrap">
+      <p class="letter-badge">✦ A LETTER FOR YOU ✦</p>
+      <p class="letter-deco">❧ ❦ ❧</p>
+      <h2 class="letter-heading">My Dearest Love</h2>
+      <div class="letter-body">
+        <p><span class="letter-drop">I</span> don't know how to begin something this big, so I'll start with the truth: you are the greatest thing that has ever happened to me. Not just because you're beautiful — though you are, undeniably, in every light and at every hour. Not just because you make me laugh harder than anyone. But because of <em>who you are</em>, at your very core.</p>
+        <p>You have this way of making every room feel warmer just by being in it. You have a laugh that sounds like the world is suddenly lighter. You have a heart so full of kindness that it spills out in everything you do — in the way you listen, in the way you care, in the way you love so completely and without condition.</p>
+        <p>I think about the version of me that existed before you, and I honestly can't recognise him. You've changed me — not by asking me to, but simply by being so extraordinarily yourself that I wanted to become someone worthy of standing beside you.</p>
+        <p>There have been ordinary days and there have been magical days, and somehow with you, I struggle to tell the difference. A Tuesday morning with you feels like a gift. Getting lost in the car with you is a memory I'll keep forever. Sitting in comfortable silence with you is one of my favourite things in this world.</p>
+        <p>I want you to know that on the hard days — the ones where nothing seems to go right — you are still the first thought in my mind. Not as a burden, but as the reason I keep going. You are my favourite place to land.</p>
+        <p>Thank you for every single day. Thank you for choosing me, for trusting me, for loving me the way you do. I promise I will spend every day doing everything I can to deserve you.</p>
+        <p>I love you more than words, more than this page, more than every photo in this little album could ever hold. But I wanted to try anyway — because you deserve to be told, beautifully and often.</p>
+      </div>
+      <p class="letter-sig">Forever yours, [Your Name] 💕</p>
+      <p class="letter-deco-b">✦ ✦ ✦</p>
+      <button class="letter-nav" onclick="showLoveStory()">One last thing… 🎁</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════
+     LOVE STORY SCREEN
+══════════════════════ -->
+<div class="screen hidden" id="loveStoryScreen" style="background:linear-gradient(160deg,#b8dcf5 0%,#d6eefb 50%,#b8dcf5 100%);padding:0;overflow:hidden;">
+  <div class="story-inner" style="padding-top:max(1.2rem,env(safe-area-inset-top));">
+    <div class="story-header">
+      <h1 style="color:#1a5f8a;font-size:clamp(1.5rem,5.5vw,2.2rem);background:linear-gradient(135deg,#1a5f8a,var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">💙 When They Finally Stayed 💙</h1>
+      <p style="color:#2a7ab0;">A love story. Also 100% true.</p>
+    </div>
+    <div class="story-chapters" style="--ch-border:rgba(26,95,138,.2);">
+
+      <div class="chapter" style="background:rgba(255,255,255,.65);border-color:rgba(26,95,138,.2);">
+        <div class="ch-num" style="color:#1a5f8a;">Chapter 1</div>
+        <span class="ch-emoji">🌙</span>
+        <div class="ch-title" style="color:#0d3a60;">The Night It All Changed</div>
+        <p class="ch-text" style="color:#0d3a60;">
+          One evening the raccoon didn't run. Just… sat down next to the cat.
+          The cat, confused, also sat. They watched the stars together in silence.<br><br>
+          Nobody stole anything. Nobody chased anyone. It was, objectively,
+          the strangest and most wonderful evening of both their lives.
+          <span class="punchline" style="color:#1a5f8a;">⭐ The cat didn't even notice the cereal was gone. Almost.</span>
+        </p>
+      </div>
+
+      <div class="chapter" style="background:rgba(255,255,255,.65);border-color:rgba(26,95,138,.2);">
+        <div class="ch-num" style="color:#1a5f8a;">Chapter 2</div>
+        <span class="ch-emoji">☕</span>
+        <div class="ch-title" style="color:#0d3a60;">Mornings Look Different Now</div>
+        <p class="ch-text" style="color:#0d3a60;">
+          The raccoon started making breakfast for two. The cat pretended not to notice,
+          but always showed up exactly on time. They never talked about it.
+          <em>Both just knew.</em><br><br>
+          The cat's favourite mug appeared one day on the raccoon's shelf.
+          Neither of them said a word about it being there.
+          <span class="punchline" style="color:#1a5f8a;">☕ That mug has never moved since.</span>
+        </p>
+      </div>
+
+      <div class="chapter" style="background:rgba(255,255,255,.65);border-color:rgba(26,95,138,.2);">
+        <div class="ch-num" style="color:#1a5f8a;">Chapter 3</div>
+        <span class="ch-emoji">🌧️</span>
+        <div class="ch-title" style="color:#0d3a60;">The Rainy Day Agreement</div>
+        <p class="ch-text" style="color:#0d3a60;">
+          On a rainy Tuesday, the raccoon showed up at the cat's door with
+          no explanation, two blankets, and a bag of popcorn.<br><br>
+          The cat opened the door without even asking why.
+          They watched movies all day. The raccoon fell asleep on the cat's shoulder.
+          The cat didn't move for three hours so they wouldn't wake up.
+          <span class="punchline" style="color:#1a5f8a;">🍿 Arm completely numb. Absolutely worth it.</span>
+        </p>
+      </div>
+
+      <div class="chapter" style="background:rgba(255,255,255,.65);border-color:rgba(26,95,138,.2);">
+        <div class="ch-num" style="color:#1a5f8a;">Chapter 4</div>
+        <span class="ch-emoji">💌</span>
+        <div class="ch-title" style="color:#0d3a60;">The Note That Started It All</div>
+        <p class="ch-text" style="color:#0d3a60;">
+          Turns out, the raccoon had been leaving tiny notes for months.
+          Tucked inside the cereal box. Under the welcome mat. Behind the clock.<br><br>
+          <em>"You make things better just by being in them."</em><br>
+          <em>"I think you're my favourite thing."</em><br>
+          <em>"Stay?"</em><br><br>
+          The cat kept every single one.
+          <span class="punchline" style="color:#1a5f8a;">💌 There's a whole drawer. Don't open it or they'll both cry.</span>
+        </p>
+      </div>
+
+      <div class="chapter" style="background:rgba(255,255,255,.65);border-color:rgba(26,95,138,.2);">
+        <div class="ch-num" style="color:#1a5f8a;">Chapter 5</div>
+        <span class="ch-emoji">💙</span>
+        <div class="ch-title" style="color:#0d3a60;">Now & Always</div>
+        <p class="ch-text" style="color:#0d3a60;">
+          Now the raccoon runs toward the cat. Every single time.<br><br>
+          Through long days and quiet evenings, through difficult moments
+          and ridiculous ones — the raccoon always finds their way back.
+          And the cat is always, always there waiting.<br><br>
+          That's the whole story. That's everything.
+          <span class="punchline" style="color:#1a5f8a;">💙 Home isn't a place. It's whoever runs back to you.</span>
+        </p>
+      </div>
+
+    </div>
+    <p class="story-stars" style="color:#1a5f8a;">✦ ✦ ✦</p>
+    <button class="story-start-btn" style="background:linear-gradient(135deg,#1a6aaa 0%,#0d3a70 100%);box-shadow:0 4px 24px rgba(26,106,170,.4);" onclick="goToAutoGames()">
+      And now… one last adventure 🎮
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     AUTO GAME 1 — RACCOON FINDS CAT IN MAZE
+══════════════════════ -->
+<div class="screen hidden" id="autoMazeScreen" style="background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0;">
+  <p class="game-title">🦝 The raccoon is finding the cat!</p>
+  <p class="game-sub" style="color:#a8d4ff;">Watch… 🐱</p>
+  <canvas id="autoMazeCanvas" style="border:2.5px solid var(--gold);border-radius:10px;display:block;margin:.4rem auto;box-shadow:0 0 20px rgba(91,196,232,.3);"></canvas>
+  <div class="game-win" id="autoMazeWin">
+    <div class="win-emojis">🦝🐱</div>
+    <h2>Found you! 💙</h2>
+    <p>The raccoon always finds the way back…</p>
+    <button class="g-btn" onclick="goToAutoWhack()">Next 💙</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     AUTO GAME 2 — RACCOON FINDS CAT IN BUSHES
+══════════════════════ -->
+<div class="screen hidden" id="autoWhackScreen" style="background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0;">
+  <p class="game-title">🦝 Looking for the cat in the bushes!</p>
+  <p class="game-sub" style="color:#a8d4ff;">Where is that cat hiding? 🐱</p>
+  <p class="game-score">Found: <span id="autoWhackScore">0</span> / 8</p>
+  <div id="autoWhackPlayArea" style="display:flex;flex-direction:column;align-items:center;gap:.7rem;">
+    <div class="whack-grid" id="autoWhackGrid"></div>
+  </div>
+  <div class="game-win" id="autoWhackWin">
+    <div class="win-emojis">🐱🦝</div>
+    <h2>There you are! 💙</h2>
+    <p>No hiding from love!</p>
+    <button class="g-btn" onclick="goToAutoCatch()">Next 💙</button>
+  </div>
+</div>
+
+<!-- ══════════════════════
+     AUTO GAME 3 — RACCOON CATCHES HEARTS
+══════════════════════ -->
+<div class="screen hidden" id="autoCatchScreen" style="background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0;">
+  <p class="game-title">🦝 Catching all the love!</p>
+  <p class="game-sub" style="color:#a8d4ff;">The cat is raining hearts 🐱❤️</p>
+  <p class="game-score">Caught: <span id="autoCatchScore">0</span> / 10</p>
+  <div id="autoCatchPlayArea" style="display:flex;flex-direction:column;align-items:center;gap:.5rem;">
+    <div id="autoCatchArea" style="position:relative;overflow:hidden;width:min(340px,96vw);height:min(230px,38vh);background:rgba(0,0,0,.35);border:2px solid rgba(91,196,232,.35);border-radius:14px;box-shadow:inset 0 0 20px rgba(0,0,0,.3);">
+      <div id="autoCat" style="position:absolute;top:6px;font-size:clamp(1.2rem,5vw,1.6rem);animation:catRock .9s ease-in-out infinite alternate;transform-origin:center bottom;">🐱</div>
+      <div id="autoRacc" style="position:absolute;bottom:4px;font-size:clamp(1.4rem,6vw,1.8rem);filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));">🦝</div>
+    </div>
+  </div>
+  <div class="game-win" id="autoCatchWin">
+    <div class="win-emojis">💙🦝🐱💙</div>
+    <h2>All the love, caught! 💙</h2>
+    <p>And that's forever.</p>
+    <button class="g-btn" onclick="showFinal()">The End 💌</button>
+  </div>
+</div>
+
+
+<div class="screen hidden" id="finalScreen" style="background:linear-gradient(160deg,#0a1e3a 0%,#0d3060 50%,#0a1e3a 100%);">
+  <div class="final-emoji">💙</div>
+  <h1 class="final-title">Happy Anniversary,<br>My Everything</h1>
+  <p class="final-msg">From that first moment to every moment still to come — I am the luckiest person alive to love you and be loved by you. Thank you for choosing me, every single day.</p>
+  <p class="final-sig">Forever yours, [Your Name] 💕</p>
+  <button class="restart-btn" onclick="restart()">↩ Relive our memories</button>
+</div>
+
+<!-- QR TOOL - Hidden on mobile -->
+<div id="qrTool">
+  <button id="qrToggle" onclick="toggleQR()" title="QR Code">⬛</button>
+  <div id="qrPanel">
+    <h3>📱 QR Code Generator</h3>
+    <p>Host on Cloudflare Pages, paste the link, then screenshot the QR to send!</p>
+    <input type="url" id="urlInput" placeholder="https://your-site.pages.dev"/>
+    <button id="genQrBtn" onclick="generateQR()">Generate QR Code</button>
+    <div id="qrcode"></div>
+  </div>
+</div>
+
+<!-- Hidden file picker for photo uploads - Desktop only -->
+<input type="file" id="photoFilePicker" accept="image/*" style="display:none" onchange="handlePhotoFile(event)">
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// CONFIGURATION - EDIT THESE VALUES
+// ═══════════════════════════════════════════════════════════════
+
+// 🔐 Set your secret code (e.g., anniversary date: MMDD)
+const SECRET_CODE = "1404"; // Change this! Example: "0520" for May 20
+
+// 📸 PHOTO URLs - Paste your image links here
+// RECOMMENDED: Use catbox.moe or imgbb.com - upload and copy the direct URL
+// Must be HTTPS URLs for Cloudflare Pages
+const PHOTO_URLS = [
+    "https://files.catbox.moe/tq5ry1.jpeg", // Memory 1 - The day we met
+    "https://files.catbox.moe/h755at.jpeg", // Memory 2 - Our first date
+    "https://files.catbox.moe/vxgjzk.jpeg", // Memory 3 - Adventures together
+    "https://files.catbox.moe/49zmxn.jpeg", // Memory 4 - Celebrating us
+    "https://files.catbox.moe/91m44x.jpeg", // Memory 5 - Quiet days with you
+    "https://files.catbox.moe/ufsfmz.jpeg", // Memory 6 - Us, always
+    "https://files.catbox.moe/j8omdx.jpeg", // Memory 7 - Sunsets with you
+    "https://files.catbox.moe/4sfyg4.jpeg", // Memory 8 - Our little rituals
+    "https://files.catbox.moe/cmphhw.jpeg", // Memory 9 - Dancing in the kitchen
+    "https://files.catbox.moe/kmdobk.jpeg", // Memory 10 - Getting lost together
+    "https://files.catbox.moe/nfo3cd.jpeg", // Memory 11 - Late nights talking
+    ""  // Memory 12 - Our forever
+];
+
+// ✏️ Change to your name
+const YOUR_NAME = "NEHAL";
+
+// ═══════════════════════════════════════════════════════════════
+// END CONFIGURATION
+// ═══════════════════════════════════════════════════════════════
+
+// Update name in letter and final screen
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.letter-sig').forEach(el => {
+        el.innerHTML = el.innerHTML.replace('[Your Name]', YOUR_NAME);
+    });
+    document.querySelector('.final-sig').textContent = `Forever yours, ${YOUR_NAME} 💕`;
+});
+
+// ── Particles ──
+(function(){
+  const s=['❤️','🌸','✨','💕','🌹'],c=document.getElementById('particles');
+  for(let i=0;i<18;i++){
+    const h=document.createElement('span');h.className='heart-p';
+    h.textContent=s[Math.floor(Math.random()*s.length)];
+    h.style.cssText=`left:${Math.random()*100}%;font-size:${.7+Math.random()*1.2}rem;animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*12}s`;
+    c.appendChild(h);
+  }
+})();
+
+// ── Loading Screen ──
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(() => document.getElementById('loader').remove(), 500);
+    }, 800);
+    loadPhotosFromURLs();
+    checkMobileForQR();
+    
+    // Show photo helper only on desktop
+    const isDesktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
+    if(isDesktop && !localStorage.getItem('photoHelperSeen')) {
+        document.getElementById('photoHelper').classList.add('show');
+        localStorage.setItem('photoHelperSeen', 'true');
+    }
+});
+
+// ── Mobile QR Check ──
+function checkMobileForQR() {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    if(isMobile) {
+        document.getElementById('qrTool').style.display = 'none';
+    }
+}
+
+// ── Helpers ──
+function showScreen(hide,show){
+  document.getElementById(hide).classList.add('hidden');
+  document.getElementById(show).classList.remove('hidden');
+}
+
+function goFromStory(){showScreen('storyScreen','mazeScreen');buildMaze();}
+
+// ── LOCK ──
+let entered='';
+function press(d){
+  if(entered.length>=SECRET_CODE.length)return;
+  entered+=d; updateDots();
+  if(entered.length===SECRET_CODE.length)setTimeout(checkCode,200);
+}
+function delKey(){entered=entered.slice(0,-1);updateDots();}
+function updateDots(){
+  for(let i=0;i<SECRET_CODE.length;i++)
+    document.getElementById('d'+i).classList.toggle('filled',i<entered.length);
+}
+function checkCode(){
+  if(entered===SECRET_CODE){showScreen('lockScreen','storyScreen');}
+  else{
+    const d=document.getElementById('codeDots');d.classList.add('shake');
+    setTimeout(()=>{d.classList.remove('shake');entered='';updateDots();},500);
+  }
+}
+
+// ════════════════════════
+// GAME 1 — MAZE (canvas-based, Samsung-safe)
+// ════════════════════════
+const MAZE=[
+  [1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,1,0,1,0,0,0,1],
+  [1,0,1,1,1,0,1,0,1,0,1,0,1],
+  [1,0,1,0,0,0,0,0,0,0,1,0,1],
+  [1,0,1,0,1,1,1,1,1,0,1,0,1],
+  [1,0,0,0,1,0,0,0,1,0,0,0,1],
+  [1,1,1,0,1,0,1,0,1,1,1,0,1],
+  [1,0,0,0,0,0,1,0,0,0,0,0,1],
+  [1,0,1,1,1,0,1,1,1,0,1,1,1],
+  [1,0,0,0,1,0,0,0,1,0,1,1,1],
+  [1,1,1,0,1,1,1,0,1,0,0,0,1],
+  [1,0,0,0,0,0,1,0,0,0,1,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+const MR=13, MC=13, MGOAL={r:11,c:11};
+let cat={r:1,c:1}, mazeDone=false;
+let CELL=22;
+
+function buildMaze(){
+  mazeDone=false; cat={r:1,c:1};
+  document.getElementById('mazePlayArea').style.display='flex';
+  document.getElementById('mazeWin').classList.remove('show');
+
+  const canvas=document.getElementById('mazeCanvas');
+  const maxW=Math.min(window.innerWidth*0.92, 310);
+  CELL=Math.floor(maxW/MC);
+  const size=CELL*MC;
+  canvas.width=size;
+  canvas.height=size;
+  canvas.style.width=size+'px';
+  canvas.style.height=size+'px';
+
+  drawMaze();
+  attachMazeTouch();
+}
+
+function drawMaze(){
+  const canvas=document.getElementById('mazeCanvas');
+  const ctx=canvas.getContext('2d');
+  const size=CELL*MC;
+
+  ctx.fillStyle='#060e06';
+  ctx.fillRect(0,0,size,size);
+
+  for(let r=0;r<MR;r++){
+    for(let c=0;c<MC;c++){
+      const x=c*CELL, y=r*CELL;
+      if(MAZE[r][c]===1){
+        ctx.fillStyle='#1a3020';
+        ctx.fillRect(x+1,y+1,CELL-2,CELL-2);
+      } else {
+        const isGoal=r===MGOAL.r&&c===MGOAL.c;
+        ctx.fillStyle=isGoal?'#b8e8b8':'#d8eedd';
+        ctx.fillRect(x+1,y+1,CELL-2,CELL-2);
+      }
+    }
+  }
+
+  drawEmoji(ctx,'🦝', MGOAL.c, MGOAL.r);
+  drawEmoji(ctx,'🐱', cat.c, cat.r);
+}
+
+function drawEmoji(ctx, emoji, col, row){
+  const x=col*CELL + CELL/2;
+  const y=row*CELL + CELL/2;
+  const fontSize=Math.max(10, CELL*0.72);
+  ctx.font=fontSize+'px serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.fillText(emoji, x, y);
+}
+
+function movePlayer(dr,dc){
+  if(mazeDone)return;
+  const nr=cat.r+dr, nc=cat.c+dc;
+  if(nr<0||nr>=MR||nc<0||nc>=MC||MAZE[nr][nc]===1) return;
+  cat={r:nr,c:nc};
+  drawMaze();
+  if(nr===MGOAL.r&&nc===MGOAL.c){
+    mazeDone=true;
+    setTimeout(()=>{
+      document.getElementById('mazePlayArea').style.display='none';
+      document.getElementById('mazeWin').classList.add('show');
+    },350);
+  }
+}
+
+let _mx=null,_my=null;
+function attachMazeTouch(){
+  const canvas=document.getElementById('mazeCanvas');
+  canvas.ontouchstart=e=>{
+    e.preventDefault();
+    _mx=e.touches[0].clientX;
+    _my=e.touches[0].clientY;
+  };
+  canvas.ontouchend=e=>{
+    e.preventDefault();
+    if(_mx===null)return;
+    const dx=e.changedTouches[0].clientX-_mx;
+    const dy=e.changedTouches[0].clientY-_my;
+    if(Math.abs(dx)<8&&Math.abs(dy)<8){_mx=null;return;}
+    Math.abs(dx)>Math.abs(dy)?movePlayer(0,dx>0?1:-1):movePlayer(dy>0?1:-1,0);
+    _mx=null;
+  };
+}
+
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('mazeScreen').classList.contains('hidden'))return;
+  const map={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
+  if(map[e.key]){e.preventDefault();movePlayer(...map[e.key]);}
+});
+
+function goToWhack(){showScreen('mazeScreen','whackScreen');startWhack();}
+
+// ════════════════════════
+// GAME 2 — WHACK-A-RACCOON
+// ════════════════════════
+let wScore=0,wActive=false,raccPos=-1,wTimer=null,wDelay=1200;
+
+function startWhack(){
+  wScore=0;wActive=true;wDelay=1200;raccPos=-1;
+  document.getElementById('whackScore').textContent='0';
+  document.getElementById('whackPlayArea').style.display='flex';
+  document.getElementById('whackWin').classList.remove('show');
+  const grid=document.getElementById('whackGrid');grid.innerHTML='';
+  for(let i=0;i<9;i++){
+    const b=document.createElement('button');
+    b.className='bush';b.id='bush'+i;b.textContent='🌿';
+    b.onclick=()=>tapBush(i);grid.appendChild(b);
+  }
+  scheduleRaccoon();
+}
+function scheduleRaccoon(){
+  if(!wActive)return;
+  document.querySelectorAll('.bush').forEach(b=>{b.classList.remove('lit','hit');if(b.textContent!=='⭐')b.textContent='🌿';});
+  let next;do{next=Math.floor(Math.random()*9);}while(next===raccPos);
+  raccPos=next;
+  const b=document.getElementById('bush'+raccPos);
+  b.textContent='🦝';b.classList.add('lit');
+  wTimer=setTimeout(()=>{
+    if(!wActive)return;
+    b.textContent='🌿';b.classList.remove('lit');raccPos=-1;
+    setTimeout(scheduleRaccoon,280);
+  },wDelay);
+}
+function tapBush(i){
+  if(!wActive)return;
+  if(i===raccPos){
+    clearTimeout(wTimer);raccPos=-1;wScore++;
+    wDelay=Math.max(520,1200-wScore*80);
+    document.getElementById('whackScore').textContent=wScore;
+    const b=document.getElementById('bush'+i);
+    b.textContent='⭐';b.classList.remove('lit');b.classList.add('hit');
+    if(wScore>=8){setTimeout(winWhack,420);return;}
+    setTimeout(scheduleRaccoon,340);
+  } else {
+    const b=document.getElementById('bush'+i);
+    const prev=b.textContent;
+    b.textContent='💨';setTimeout(()=>{if(b.textContent==='💨')b.textContent=prev;},260);
+  }
+}
+function winWhack(){
+  wActive=false;clearTimeout(wTimer);
+  document.getElementById('whackPlayArea').style.display='none';
+  document.getElementById('whackWin').classList.add('show');
+}
+function goToCatch(){showScreen('whackScreen','catchScreen');attachCatchButtons();startCatch();}
+
+// ════════════════════════
+// GAME 3 — HEART CATCHER (FASTER CAT - Speed 5.5)
+// ════════════════════════
+let catX=0, catDir=0, CAT_SPEED=5.5, cScore=0,cActive=false,hearts=[], spawnId=null,loopId=null;
+
+function attachCatchButtons(){
+  function addHold(el,dir){
+    el.addEventListener('touchstart', e=>{ e.preventDefault(); if(cActive)catDir=dir; },{ passive:false });
+    el.addEventListener('touchend',   e=>{ e.preventDefault(); catDir=0; },{ passive:false });
+    el.addEventListener('touchcancel',e=>{ catDir=0; },{ passive:true });
+    el.addEventListener('pointerdown', e=>{ e.preventDefault(); if(cActive)catDir=dir; });
+    el.addEventListener('pointerup',   e=>{ catDir=0; });
+    el.addEventListener('pointerleave',e=>{ catDir=0; });
+    el.addEventListener('pointercancel',e=>{ catDir=0; });
+    el.addEventListener('mousedown', ()=>{ if(cActive)catDir=dir; });
+    el.addEventListener('mouseup',   ()=>{ catDir=0; });
+    el.addEventListener('mouseleave',()=>{ catDir=0; });
+  }
+  addHold(document.getElementById('btnLeft'), -1);
+  addHold(document.getElementById('btnRight'), 1);
+}
+
+function startCatch(){
+  cScore=0; catDir=0; cActive=true; hearts=[];
+  document.getElementById('catchScore').textContent='0';
+  document.getElementById('catchPlayArea').style.display='flex';
+  document.getElementById('catchWin').classList.remove('show');
+
+  const area=document.getElementById('catchArea');
+  area.querySelectorAll('.fh').forEach(h=>h.remove());
+  const W=area.clientWidth, H=area.clientHeight;
+
+  const raccEl=document.getElementById('catchRaccoon');
+  const raccSize=raccEl.offsetWidth||22;
+  raccEl.style.left=(W/2 - raccSize/2)+'px';
+  raccEl.style.top='6px';
+
+  catX=W/2;
+  renderCat(W);
+
+  spawnId=setInterval(()=>spawnHeart(W,H),900);
+  loopId=setInterval(()=>tickCatch(W,H),28);
+}
+
+function renderCat(W){
+  const el=document.getElementById('catchCat');
+  const size=el.offsetWidth||24;
+  const newX=Math.max(size/2, Math.min(W-size/2, catX));
+  catX=newX;
+  el.style.left=(catX - size/2)+'px';
+}
+
+function spawnHeart(W,H){
+  if(!cActive)return;
+  const area=document.getElementById('catchArea');
+  const h=document.createElement('div');
+  h.className='fh'; h.textContent='❤️';
+  const hx=16+Math.random()*(W-32);
+  h.style.left=hx+'px';
+  h.style.top='-28px';
+  area.appendChild(h);
+  hearts.push({el:h, cx:hx+11, top:-28});
+}
+
+function tickCatch(W,H){
+  if(!cActive)return;
+
+  if(catDir!==0){
+    catX+=CAT_SPEED*catDir;
+    renderCat(W);
+  }
+
+  const CATCH_ZONE_HEIGHT = 38;
+  const CATCH_TOLERANCE   = W * 0.13;
+  const catchZoneTop = H - CATCH_ZONE_HEIGHT;
+
+  const keep=[];
+  let caughtThisTick=false;
+
+  for(const h of hearts){
+    h.top+=3.2;
+    h.el.style.top=h.top+'px';
+
+    if(!caughtThisTick && h.top>=catchZoneTop && h.top<=H){
+      const dx=Math.abs(h.cx - catX);
+      if(dx < CATCH_TOLERANCE){
+        caughtThisTick=true;
+        h.el.textContent='✨';
+        const captured=h.el;
+        setTimeout(()=>{ try{captured.remove();}catch(e){} },200);
+        cScore++;
+        document.getElementById('catchScore').textContent=cScore;
+        if(cScore>=10){ endCatch(); return; }
+        continue;
+      }
+    }
+
+    if(h.top>H){ h.el.remove(); continue; }
+    keep.push(h);
+  }
+  hearts=keep;
+}
+
+function endCatch(){
+  cActive=false; catDir=0;
+  clearInterval(spawnId); clearInterval(loopId);
+  hearts.forEach(h=>{ try{h.el.remove();}catch(e){} });
+  hearts=[];
+  setTimeout(()=>{
+    document.getElementById('catchPlayArea').style.display='none';
+    document.getElementById('catchWin').classList.add('show');
+  },400);
+}
+
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('catchScreen').classList.contains('hidden'))return;
+  if(e.key==='ArrowLeft'){ e.preventDefault(); if(cActive)catDir=-1; }
+  if(e.key==='ArrowRight'){ e.preventDefault(); if(cActive)catDir=1; }
+});
+document.addEventListener('keyup',e=>{
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight') catDir=0;
+});
+
+function enterPhotos(){showScreen('catchScreen','photoScreen');}
+
+// ── Photo System ──
+let _pickingSlot = 0;
+
+function isUploadSupported() {
+    return window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
+}
+
+function pickPhoto(slot){
+    if(!isUploadSupported()) {
+        return;
+    }
+    _pickingSlot = slot;
+    const picker = document.getElementById('photoFilePicker');
+    picker.value = '';
+    picker.click();
+}
+
+function handlePhotoFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const dataUrl = ev.target.result;
+    const img = document.getElementById('photo' + _pickingSlot);
+    const ph  = document.getElementById('ph'    + _pickingSlot);
+    img.src = dataUrl;
+    
+    img.onload = function() {
+      img.style.display = 'block';
+      img.style.height = 'auto';
+      ph.style.display  = 'none';
+      img.closest('.upload-frame').classList.add('has-photo');
+    };
+    
+    try { 
+      localStorage.setItem('anniv_photo_'+_pickingSlot, dataUrl); 
+    } catch(err) {}
+  };
+  reader.readAsDataURL(file);
+}
+
+function loadPhotosFromURLs() {
+  let hasAnyUrl = false;
+  for(let i=0; i<PHOTO_URLS.length; i++) {
+    if(PHOTO_URLS[i] && PHOTO_URLS[i].trim() !== '') {
+      hasAnyUrl = true;
+      const img = document.getElementById('photo'+i);
+      const ph  = document.getElementById('ph'+i);
+      if(img && ph){
+        img.removeAttribute('crossorigin');
+        img.src = PHOTO_URLS[i];
+        
+        img.onload = function() {
+          img.style.display = 'block';
+          img.style.height = 'auto';
+          ph.style.display  = 'none';
+          img.closest('.upload-frame').classList.add('has-photo');
+        };
+        
+        img.onerror = function() {
+          console.error('Failed to load image:', PHOTO_URLS[i]);
+          img.style.display = 'none';
+          if(window.innerWidth < 1024 || !window.matchMedia('(hover: hover)').matches) {
+            ph.style.display = 'none';
+            img.closest('.photo-frame').classList.add('no-photo-mobile');
+          } else {
+            ph.style.display = 'flex';
+          }
+          img.closest('.upload-frame').classList.remove('has-photo');
+        };
+      }
+    }
+  }
+  
+  if(!hasAnyUrl) {
+    restorePhotosFromStorage();
+  }
+}
+
+function restorePhotosFromStorage(){
+  if(!isUploadSupported()) return;
+  
+  for(let i=0;i<12;i++){
+    try{
+      const saved = localStorage.getItem('anniv_photo_'+i);
+      if(saved){
+        const img = document.getElementById('photo'+i);
+        const ph  = document.getElementById('ph'+i);
+        if(img && ph){
+          img.src = saved;
+          img.onload = function() {
+            img.style.display = 'block';
+            img.style.height = 'auto';
+            ph.style.display  = 'none';
+            img.closest('.upload-frame').classList.add('has-photo');
+          };
+        }
+      }
+    }catch(err){}
+  }
+}
+
+const PAGE_IDS=['pg0','pg1','pg2','pg3','pg4','pg5','pg6','pg7','pg8','pg9','pg10','pg11','pgLetter'];
+let curPage=0;
+
+function nextPage(){
+  document.getElementById(PAGE_IDS[curPage]).classList.remove('active');
+  curPage++;
+  document.getElementById(PAGE_IDS[curPage]).classList.add('active');
+}
+function showLoveStory(){
+  document.getElementById('photoScreen').classList.add('hidden');
+  document.getElementById('loveStoryScreen').classList.remove('hidden');
+}
+function goToAutoGames(){
+  showScreen('loveStoryScreen','autoMazeScreen');
+  startAutoMaze();
+}
+
+// ══════════════════════════════
+// AUTO GAME 1 — RACCOON SOLVES MAZE TO FIND CAT
+// ══════════════════════════════
+const AUTO_MAZE=[
+  [1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,1,0,1,0,0,0,1],
+  [1,0,1,1,1,0,1,0,1,0,1,0,1],
+  [1,0,1,0,0,0,0,0,0,0,1,0,1],
+  [1,0,1,0,1,1,1,1,1,0,1,0,1],
+  [1,0,0,0,1,0,0,0,1,0,0,0,1],
+  [1,1,1,0,1,0,1,0,1,1,1,0,1],
+  [1,0,0,0,0,0,1,0,0,0,0,0,1],
+  [1,0,1,1,1,0,1,1,1,0,1,1,1],
+  [1,0,0,0,1,0,0,0,1,0,1,1,1],
+  [1,1,1,0,1,1,1,0,1,0,0,0,1],
+  [1,0,0,0,0,0,1,0,0,0,1,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1]
+];
+const AMR=13,AMC=13;
+const AUTO_GOAL={r:1,c:1};
+const AUTO_START={r:11,c:11};
+
+function bfsSolve(maze,rows,cols,start,goal){
+  const visited=Array.from({length:rows},()=>Array(cols).fill(false));
+  const prev=Array.from({length:rows},()=>Array(cols).fill(null));
+  const q=[start];
+  visited[start.r][start.c]=true;
+  const dirs=[[-1,0],[1,0],[0,-1],[0,1]];
+  while(q.length){
+    const cur=q.shift();
+    if(cur.r===goal.r&&cur.c===goal.c){
+      const path=[];let n=cur;
+      while(n){path.unshift(n);n=prev[n.r][n.c];}
+      return path;
+    }
+    for(const[dr,dc]of dirs){
+      const nr=cur.r+dr,nc=cur.c+dc;
+      if(nr>=0&&nr<rows&&nc>=0&&nc<cols&&!visited[nr][nc]&&maze[nr][nc]===0){
+        visited[nr][nc]=true;prev[nr][nc]=cur;q.push({r:nr,c:nc});
+      }
+    }
+  }
+  return [];
+}
+
+let autoMazePath=[],autoMazeStep=0,autoMazeTimer=null,ACELL=22;
+
+function startAutoMaze(){
+  document.getElementById('autoMazeWin').classList.remove('show');
+  autoMazePath=bfsSolve(AUTO_MAZE,AMR,AMC,AUTO_START,AUTO_GOAL);
+  autoMazeStep=0;
+  const canvas=document.getElementById('autoMazeCanvas');
+  const maxW=Math.min(window.innerWidth*0.92,310);
+  ACELL=Math.floor(maxW/AMC);
+  canvas.width=ACELL*AMC; canvas.height=ACELL*AMC;
+  canvas.style.width=ACELL*AMC+'px'; canvas.style.height=ACELL*AMC+'px';
+  drawAutoMaze();
+  clearInterval(autoMazeTimer);
+  autoMazeTimer=setInterval(stepAutoMaze,120);
+}
+
+function drawAutoMaze(){
+  const canvas=document.getElementById('autoMazeCanvas');
+  const ctx=canvas.getContext('2d');
+  const S=ACELL*AMC;
+  ctx.fillStyle='#060e20'; ctx.fillRect(0,0,S,S);
+  for(let r=0;r<AMR;r++)for(let c=0;c<AMC;c++){
+    const x=c*ACELL,y=r*ACELL;
+    if(AUTO_MAZE[r][c]===1){ctx.fillStyle='#0d2040';ctx.fillRect(x+1,y+1,ACELL-2,ACELL-2);}
+    else{
+      const isGoal=r===AUTO_GOAL.r&&c===AUTO_GOAL.c;
+      ctx.fillStyle=isGoal?'#b8dcf5':'#c5e0f5';
+      ctx.fillRect(x+1,y+1,ACELL-2,ACELL-2);
+    }
+  }
+  drawAutoEmoji(ctx,'🐱',AUTO_GOAL.c,AUTO_GOAL.r);
+  if(autoMazePath.length>0){
+    const pos=autoMazePath[Math.min(autoMazeStep,autoMazePath.length-1)];
+    drawAutoEmoji(ctx,'🦝',pos.c,pos.r);
+  }
+}
+
+function drawAutoEmoji(ctx,emoji,col,row){
+  const x=col*ACELL+ACELL/2, y=row*ACELL+ACELL/2;
+  ctx.font=Math.max(10,ACELL*0.72)+'px serif';
+  ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText(emoji,x,y);
+}
+
+function stepAutoMaze(){
+  if(autoMazeStep>=autoMazePath.length-1){
+    clearInterval(autoMazeTimer);
+    drawAutoMaze();
+    setTimeout(()=>document.getElementById('autoMazeWin').classList.add('show'),600);
+    return;
+  }
+  autoMazeStep++;
+  drawAutoMaze();
+}
+
+// ══════════════════════════════
+// AUTO GAME 2 — RACCOON FINDS CAT IN BUSHES
+// ══════════════════════════════
+let awScore=0,awTimer=null,awCatPos=-1,awActive=false;
+
+function startAutoWhack(){
+  awScore=0; awActive=true;
+  document.getElementById('autoWhackScore').textContent='0';
+  document.getElementById('autoWhackPlayArea').style.display='flex';
+  document.getElementById('autoWhackWin').classList.remove('show');
+  const grid=document.getElementById('autoWhackGrid'); grid.innerHTML='';
+  for(let i=0;i<9;i++){
+    const b=document.createElement('div');
+    b.className='bush'; b.id='awbush'+i; b.textContent='🌿';
+    grid.appendChild(b);
+  }
+  scheduleAutoWhack();
+}
+
+function scheduleAutoWhack(){
+  if(!awActive)return;
+  clearTimeout(awTimer);
+  awTimer=setTimeout(()=>{
+    if(!awActive)return;
+    if(awCatPos>=0){document.getElementById('awbush'+awCatPos).textContent='🌿';}
+    awCatPos=Math.floor(Math.random()*9);
+    document.getElementById('awbush'+awCatPos).textContent='🐱';
+    setTimeout(()=>{
+      if(!awActive)return;
+      const b=document.getElementById('awbush'+awCatPos);
+      if(b){b.textContent='🦝🐱';}
+      awScore++;
+      document.getElementById('autoWhackScore').textContent=awScore;
+      if(awScore>=8){
+        awActive=false;clearTimeout(awTimer);
+        setTimeout(()=>{
+          document.getElementById('autoWhackPlayArea').style.display='none';
+          document.getElementById('autoWhackWin').classList.add('show');
+        },400);
+      } else { scheduleAutoWhack(); }
+    },600);
+  }, 800);
+}
+
+function goToAutoWhack(){showScreen('autoMazeScreen','autoWhackScreen');startAutoWhack();}
+
+// ══════════════════════════════
+// AUTO GAME 3 — RACCOON CATCHES HEARTS FROM CAT
+// ══════════════════════════════
+let acScore=0,acActive=false,acHearts=[],acRaccX=0,acSpawnId=null,acLoopId=null,acTargetX=0;
+
+function startAutoCatch(){
+  acScore=0; acActive=true; acHearts=[];
+  document.getElementById('autoCatchScore').textContent='0';
+  document.getElementById('autoCatchPlayArea').style.display='flex';
+  document.getElementById('autoCatchWin').classList.remove('show');
+  const area=document.getElementById('autoCatchArea');
+  area.querySelectorAll('.afh').forEach(h=>h.remove());
+  const W=area.clientWidth, H=area.clientHeight;
+  const catEl=document.getElementById('autoCat');
+  catEl.style.left=(W/2-12)+'px';
+  acRaccX=W/2; acTargetX=W/2;
+  placeAutoRacc(W);
+  acSpawnId=setInterval(()=>spawnAutoHeart(W),900);
+  acLoopId=setInterval(()=>tickAutoCatch(W,H),28);
+}
+
+function placeAutoRacc(W){
+  const el=document.getElementById('autoRacc');
+  const sz=el.offsetWidth||26;
+  acRaccX=Math.max(sz/2,Math.min(W-sz/2,acRaccX));
+  el.style.left=(acRaccX-sz/2)+'px';
+}
+
+function spawnAutoHeart(W){
+  if(!acActive)return;
+  const area=document.getElementById('autoCatchArea');
+  const h=document.createElement('div');
+  h.className='afh'; h.textContent='❤️';
+  h.style.cssText='position:absolute;font-size:1.2rem;pointer-events:none;';
+  const hx=16+Math.random()*(W-32);
+  h.style.left=hx+'px'; h.style.top='-28px';
+  area.appendChild(h);
+  acHearts.push({el:h,cx:hx+11,top:-28});
+  acTargetX=hx+11;
+}
+
+function tickAutoCatch(W,H){
+  if(!acActive)return;
+  const diff=acTargetX-acRaccX;
+  if(Math.abs(diff)>2) acRaccX+=diff*0.08;
+  placeAutoRacc(W);
+
+  const ZONE=H-4-36, TOL=W*0.13;
+  const keep=[];
+  let caught=false;
+  for(const h of acHearts){
+    h.top+=3.2; h.el.style.top=h.top+'px';
+    if(!caught&&h.top>=ZONE&&h.top<=H){
+      if(Math.abs(h.cx-acRaccX)<TOL){
+        caught=true;
+        h.el.textContent='💙';
+        const c=h.el; setTimeout(()=>{try{c.remove();}catch(e){}},200);
+        acScore++;
+        document.getElementById('autoCatchScore').textContent=acScore;
+        if(acScore>=10){endAutoCatch();return;}
+        continue;
+      }
+    }
+    if(h.top>H){h.el.remove();continue;}
+    keep.push(h);
+  }
+  acHearts=keep;
+}
+
+function endAutoCatch(){
+  acActive=false; clearInterval(acSpawnId); clearInterval(acLoopId);
+  acHearts.forEach(h=>{try{h.el.remove();}catch(e){}});acHearts=[];
+  setTimeout(()=>{
+    document.getElementById('autoCatchPlayArea').style.display='none';
+    document.getElementById('autoCatchWin').classList.add('show');
+  },400);
+}
+
+function goToAutoCatch(){showScreen('autoWhackScreen','autoCatchScreen');startAutoCatch();}
+
+
+function showFinal(){
+  ['photoScreen','loveStoryScreen','autoMazeScreen','autoWhackScreen','autoCatchScreen'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.add('hidden');
+  });
+  document.getElementById('finalScreen').classList.remove('hidden');
+}
+
+function restart(){
+  PAGE_IDS.forEach(id=>document.getElementById(id).classList.remove('active'));
+  curPage=0;document.getElementById('pg0').classList.add('active');
+  document.getElementById('finalScreen').classList.add('hidden');
+  document.getElementById('photoScreen').classList.remove('hidden');
+}
+
+// ── QR ──
+function toggleQR(){
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    if(isMobile){
+      alert("Share this link instead:\n" + window.location.href);
+      return;
+    }
+    document.getElementById('qrPanel').classList.toggle('open');
+}
+function generateQR(){
+  const url=document.getElementById('urlInput').value.trim();
+  if(!url){alert('Enter a URL first!');return;}
+  document.getElementById('qrcode').innerHTML='';
+  new QRCode(document.getElementById('qrcode'),{text:url,width:200,height:200,colorDark:'#0d2540',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.H});
+}
+</script>
+</body>
+</html>
