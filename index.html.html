@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>For You, My Love 💌</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<title>Special For You, FATAFETO 💌</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -20,7 +19,7 @@
   background:var(--deep);z-index:9999;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  color:var(--gold);font-family:'Dancing Script',cursive;
+  color:var(--gold);font-family:Arial,sans-serif;
   font-size:1.8rem;transition:opacity 0.5s ease;
 }
 .loader-hearts{font-size:3rem;margin-bottom:1rem;animation:pulse 1.5s ease-in-out infinite}
@@ -34,7 +33,7 @@ body{
   height:100%;
   min-height:100vh;
   min-height:-webkit-fill-available;
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:var(--cream);
   overflow:hidden;
   position:fixed;
@@ -67,12 +66,204 @@ body{
 .dark-bg{background:linear-gradient(160deg,#0a1e3a 0%,#0d3060 50%,#0a1e3a 100%)}
 .dark-bg::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23c9a84c' fill-opacity='.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
 
+/* BACK BUTTON - LEFT MIDDLE POSITION */
+.back-btn{
+  position:fixed;
+  top:50%;
+  left:max(0.5rem, env(safe-area-inset-left));
+  transform:translateY(-50%);
+  z-index:100;
+  background:rgba(91,196,232,.15);
+  border:1.5px solid rgba(91,196,232,.45);
+  border-radius:50%;
+  width:44px;
+  height:44px;
+  color:var(--gold);
+  font-size:1.2rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+  backdrop-filter:blur(4px);
+}
+.back-btn:hover{
+  background:rgba(91,196,232,.3);
+  transform:translateY(-50%) scale(1.05);
+}
+.back-btn:active{
+  transform:translateY(-50%) scale(.95);
+  background:rgba(91,196,232,.4);
+}
+
+/* MUSIC ICON - VISIBLE ON ALL DEVICES */
+.music-icon-btn{
+  position:fixed;
+  top:max(1rem, env(safe-area-inset-top));
+  right:max(1rem, env(safe-area-inset-right));
+  z-index:100;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(135deg, #1DB954 0%, #1ed760 100%);
+  border:none;
+  color:white;
+  font-size:1.4rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 15px rgba(29, 185, 84, 0.4);
+  transition:all 0.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.music-icon-btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 6px 20px rgba(29, 185, 84, 0.6);
+}
+.music-icon-btn:active{
+  transform:scale(0.95);
+}
+
+/* MUSIC MODAL */
+.music-modal{
+  display:none;
+  position:fixed;
+  top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,0.85);
+  z-index:200;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  backdrop-filter:blur(5px);
+}
+.music-modal.show{display:flex}
+.music-modal-content{
+  background:linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius:20px;
+  padding:1.5rem;
+  width:100%;
+  max-width:400px;
+  max-height:90vh;
+  overflow-y:auto;
+  border:2px solid rgba(29, 185, 84, 0.3);
+}
+.music-modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:1rem;
+}
+.music-modal-title{
+  color:#1ed760;
+  font-family:Arial,sans-serif;
+  font-size:1.1rem;
+  font-weight:bold;
+}
+.music-close-btn{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:1.5rem;
+  cursor:pointer;
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  transition:all 0.2s;
+}
+.music-close-btn:hover{
+  background:rgba(255,255,255,0.1);
+}
+.music-tabs{
+  display:flex;
+  gap:0.5rem;
+  margin-bottom:1rem;
+}
+.music-tab{
+  flex:1;
+  padding:0.6rem;
+  border:none;
+  border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:0.85rem;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+.music-tab.active{
+  background:#1DB954;
+  color:white;
+}
+.music-tab:hover:not(.active){
+  background:rgba(255,255,255,0.2);
+}
+.music-player-container{
+  width:100%;
+  height:380px;
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
+}
+.music-player-container iframe{
+  width:100%;
+  height:100%;
+  border:none;
+}
+.music-links{
+  display:flex;
+  flex-direction:column;
+  gap:0.8rem;
+  margin-top:1rem;
+}
+.music-link-btn{
+  display:flex;
+  align-items:center;
+  gap:0.8rem;
+  padding:0.8rem 1rem;
+  border-radius:10px;
+  text-decoration:none;
+  color:white;
+  font-family:Arial,sans-serif;
+  font-size:0.9rem;
+  transition:all 0.2s;
+}
+.music-link-btn.spotify{
+  background:#1DB954;
+}
+.music-link-btn.anghami{
+  background:#48085c;
+}
+.music-link-btn:hover{
+  transform:translateX(5px);
+  opacity:0.9;
+}
+
+/* Anghami Logo Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulse-bg {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+@keyframes equalizer {
+  from { transform: scaleY(0.3); }
+  to { transform: scaleY(1); }
+}
+
 /* LOCK */
 #lockScreen{text-align:center}
 .lock-logo{font-size:3.8rem;margin-bottom:.8rem;animation:pulse 2s ease-in-out infinite;position:relative;z-index:1}
 @keyframes pulse{0%,100%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(1.12);transform:scale(1.12)}}
-.lock-title{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(1.8rem,6vw,3rem);margin-bottom:.3rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.lock-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blush);font-size:1.05rem;margin-bottom:1.8rem;opacity:.85;position:relative;z-index:1}
+.lock-title{font-family:Arial,sans-serif;font-weight:bold;color:var(--gold);font-size:clamp(1.8rem,6vw,3rem);margin-bottom:.3rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lock-sub{font-family:Arial,sans-serif;font-style:italic;color:var(--blush);font-size:1.05rem;margin-bottom:1.8rem;opacity:.85;position:relative;z-index:1}
 .code-dots{display:-webkit-flex;display:flex;gap:1rem;-webkit-justify-content:center;justify-content:center;margin-bottom:1.6rem;position:relative;z-index:1}
 .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--gold);background:transparent;-webkit-transition:background .2s,-webkit-transform .2s;transition:background .2s,transform .2s}
 .dot.filled{background:var(--gold);-webkit-transform:scale(1.15);transform:scale(1.15)}
@@ -80,7 +271,7 @@ body{
 .key{
   width:68px;height:68px;border-radius:50%;
   border:1.5px solid rgba(91,196,232,.4);background:rgba(255,255,255,.05);
-  color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.5rem;cursor:pointer;
+  color:#fff;font-family:Arial,sans-serif;font-size:1.5rem;cursor:pointer;
   -webkit-transition:all .15s;transition:all .15s;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
@@ -96,19 +287,19 @@ body{
 
 /* SHARED GAME */
 .game-screen{background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0}
-.game-title{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(1.25rem,5vw,1.8rem);line-height:1.2;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.game-sub{font-family:'Cormorant Garamond',serif;font-style:italic;color:rgba(242,212,215,.85);font-size:.88rem;position:relative;z-index:1}
-.game-score{font-family:'Cormorant Garamond',serif;color:var(--gold);font-size:1.1rem;letter-spacing:.05em;position:relative;z-index:1}
+.game-title{font-family:Arial,sans-serif;font-weight:bold;color:var(--gold);font-size:clamp(1.25rem,5vw,1.8rem);line-height:1.2;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.game-sub{font-family:Arial,sans-serif;font-style:italic;color:rgba(242,212,215,.85);font-size:.88rem;position:relative;z-index:1}
+.game-score{font-family:Arial,sans-serif;color:var(--gold);font-size:1.1rem;letter-spacing:.05em;position:relative;z-index:1}
 .game-win{display:none;-webkit-flex-direction:column;flex-direction:column;-webkit-align-items:center;align-items:center;gap:.6rem}
 .game-win.show{display:-webkit-flex;display:flex}
 .win-emojis{font-size:3rem;animation:winBounce .6s ease-in-out infinite alternate}
 @keyframes winBounce{from{transform:translateY(0) rotate(-5deg)}to{transform:translateY(-14px) rotate(5deg)}}
-.game-win h2{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(1.4rem,5vw,2rem)}
-.game-win p{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blush);font-size:.92rem}
+.game-win h2{font-family:Arial,sans-serif;font-weight:bold;color:var(--gold);font-size:clamp(1.4rem,5vw,2rem)}
+.game-win p{font-family:Arial,sans-serif;font-style:italic;color:var(--blush);font-size:.92rem}
 .g-btn{
   margin-top:.5rem;padding:.75rem 2rem;border:none;border-radius:50px;
   background:linear-gradient(135deg,var(--rose) 0%,#1a6aaa 100%);color:white;
-  font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:.08em;cursor:pointer;
+  font-family:Arial,sans-serif;font-size:1rem;letter-spacing:.08em;cursor:pointer;
   box-shadow:0 4px 20px rgba(74,159,212,.4);
   -webkit-appearance:none;appearance:none;
   touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -140,14 +331,14 @@ body{
   text-align:center;padding:1.2rem 0 .6rem;
 }
 .story-header h1{
-  font-family:'Dancing Script',cursive;
+  font-family:Arial,sans-serif;font-weight:bold;
   color:#60b4ff;
   font-size:clamp(1.6rem,6vw,2.4rem);
   line-height:1.2;margin-bottom:.3rem;
   background:linear-gradient(135deg,#60b4ff,var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .story-header p{
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,sans-serif;
   font-style:italic;color:#a8d4ff;
   font-size:.9rem;opacity:.8;
 }
@@ -170,25 +361,25 @@ body{
   background:linear-gradient(180deg,#60b4ff,#3a7bd5);border-radius:4px 0 0 4px;
 }
 .ch-num{
-  font-family:'Dancing Script',cursive;
+  font-family:Arial,sans-serif;font-weight:bold;
   color:#60b4ff;font-size:.8rem;letter-spacing:.15em;
   text-transform:uppercase;margin-bottom:.2rem;opacity:.7;
 }
 .ch-emoji{font-size:2rem;margin-bottom:.4rem;display:block;animation:float 3s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .ch-title{
-  font-family:'Dancing Script',cursive;
+  font-family:Arial,sans-serif;font-weight:bold;
   color:#a8d4ff;font-size:clamp(1.1rem,4vw,1.4rem);
   margin-bottom:.5rem;line-height:1.2;
 }
 .ch-text{
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,sans-serif;
   color:#cce4ff;font-size:clamp(.92rem,2.6vw,1.05rem);
   line-height:1.75;
 }
 .ch-text .punchline{
   display:block;margin-top:.5rem;
-  font-family:'Dancing Script',cursive;
+  font-family:Arial,sans-serif;font-weight:bold;
   color:#60b4ff;font-size:clamp(1rem,3vw,1.2rem);
 }
 .story-start-btn{
@@ -196,7 +387,7 @@ body{
   width:100%;max-width:380px;
   padding:.9rem;border:none;border-radius:50px;
   background:linear-gradient(135deg,#3a7bd5 0%,#1a4fa0 100%);
-  color:white;font-family:'Cormorant Garamond',serif;
+  color:white;font-family:Arial,sans-serif;
   font-size:1.05rem;letter-spacing:.1em;cursor:pointer;
   box-shadow:0 4px 24px rgba(58,123,213,.5);
   -webkit-appearance:none;appearance:none;
@@ -284,10 +475,10 @@ body{
 }
 .page.active{display:-webkit-flex;display:flex}
 .page-top{display:-webkit-flex;display:flex;-webkit-justify-content:space-between;justify-content:space-between;-webkit-align-items:center;align-items:center;width:100%;max-width:500px}
-.page-counter{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--rose);font-size:.88rem;letter-spacing:.08em}
+.page-counter{font-family:Arial,sans-serif;font-style:italic;color:var(--rose);font-size:.88rem;letter-spacing:.08em}
 .page-hearts{font-size:.85rem;letter-spacing:2px;color:var(--coral)}
 
-/* ADAPTIVE PHOTO FRAME - No fixed aspect ratio */
+/* ADAPTIVE PHOTO FRAME - Works on all devices */
 .photo-frame{
   width:100%;
   max-width:420px;
@@ -303,10 +494,6 @@ body{
   align-items:center;
   justify-content:center;
   background:#f0f0f0;
-}
-
-.photo-frame::before{
-  display:none;
 }
 
 .photo-frame img,.photo-frame .photo-placeholder{
@@ -328,100 +515,30 @@ body{
 }
 
 .upload-frame{
-  cursor:default;
-}
-
-.upload-frame::after{
-  content:'✏️ tap to change';
-  position:absolute;
-  bottom:6px;
-  right:8px;
-  background:rgba(0,0,0,.55);
-  color:#fff;
-  font-size:.65rem;
-  padding:2px 7px;
-  border-radius:20px;
-  font-family:'Cormorant Garamond',serif;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 0.3s;
-  display:none;
-}
-
-.upload-frame.has-photo::after{
-  opacity:1;
+  cursor:pointer;
 }
 
 .photo-placeholder{
-  display:none;
+  display:flex;
   position:relative;
   width:100%;
   height:280px;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-size:2.5rem;
-  gap:.4rem;
+  font-size:3rem;
   color:white;
   text-align:center;
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,sans-serif;
 }
 
-@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
-  .upload-frame{
-    cursor:pointer;
-  }
-  
-  .upload-frame::after{
-    display:block;
-  }
-  
-  .photo-placeholder{
-    display:flex;
-  }
-  
-  .photo-placeholder .label{
-    display:block;
-  }
+/* Show placeholder when no photo - just an icon, no text */
+.photo-frame:not(.has-photo) .photo-placeholder{
+  display:flex !important;
 }
 
-@media (max-width: 1023px), (hover: none), (pointer: coarse) {
-  .upload-frame{
-    cursor:default;
-    pointer-events:none;
-  }
-  
-  .upload-frame::after{
-    display:none !important;
-  }
-  
-  .photo-placeholder{
-    display:none !important;
-  }
-  
-  .photo-frame:not(.has-photo){
-    background:linear-gradient(135deg,var(--blush),var(--petal));
-    min-height:200px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  
-  .photo-frame:not(.has-photo)::before{
-    content:'💕';
-    font-size:3rem;
-    opacity:0.5;
-    display:block;
-    position:static;
-  }
-  
-  .photo-frame.has-photo{
-    background:transparent;
-  }
-  
-  .photo-frame.has-photo::before{
-    display:none;
-  }
+.photo-frame:not(.has-photo) img{
+  display:none !important;
 }
 
 @media (hover: hover) {
@@ -439,7 +556,7 @@ body{
   margin-top:0.5rem;
 }
 .caption-date{
-  font-family:'Dancing Script',cursive;
+  font-family:Arial,sans-serif;font-weight:bold;
   color:var(--gold);
   font-size:1.05rem;
   margin-bottom:.25rem;
@@ -449,7 +566,7 @@ body{
   background-clip:text
 }
 .caption-text{
-  font-family:'Playfair Display',serif;
+  font-family:Arial,sans-serif;
   font-style:italic;
   color:var(--deep);
   font-size:clamp(.88rem,2.5vw,1.1rem);
@@ -463,7 +580,7 @@ body{
   border-radius:50px;
   background:linear-gradient(135deg,var(--rose) 0%,#1a6aaa 100%);
   color:white;
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,sans-serif;
   font-size:1.02rem;
   letter-spacing:.1em;
   cursor:pointer;
@@ -504,18 +621,41 @@ body{
   .nav-btn {
     margin-top: 0.8rem;
   }
+  
+  /* Adjust back button for mobile */
+  .back-btn{
+    left:0.3rem;
+    width:40px;
+    height:40px;
+    font-size:1rem;
+  }
+  
+  /* Adjust music icon for mobile */
+  .music-icon-btn{
+    width:44px;
+    height:44px;
+    font-size:1.2rem;
+  }
+  
+  .music-modal-content{
+    max-height:85vh;
+  }
+  
+  .music-player-container{
+    height:350px;
+  }
 }
 
 /* LETTER PAGE */
 #pgLetter{background:var(--petal);overflow-y:scroll;-webkit-overflow-scrolling:touch;justify-content:flex-start}
 .letter-wrap{width:100%;max-width:480px;padding:1.4rem 1.2rem 2rem;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column}
-.letter-badge{text-align:center;font-family:'Dancing Script',cursive;color:var(--gold);font-size:.88rem;letter-spacing:.15em;margin-bottom:.4rem;opacity:.75}
+.letter-badge{text-align:center;font-family:Arial,sans-serif;font-weight:bold;color:var(--gold);font-size:.88rem;letter-spacing:.15em;margin-bottom:.4rem;opacity:.75}
 .letter-deco{text-align:center;color:var(--rose);font-size:1.3rem;letter-spacing:8px;margin-bottom:.5rem}
-.letter-heading{font-family:'Dancing Script',cursive;color:var(--deep);font-size:clamp(1.5rem,5vw,2.1rem);text-align:center;margin-bottom:.9rem;line-height:1.2;background:linear-gradient(135deg,var(--deep),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.letter-body{font-family:'Cormorant Garamond',serif;font-size:clamp(.95rem,2.7vw,1.15rem);line-height:1.85;color:var(--deep)}
+.letter-heading{font-family:Arial,sans-serif;font-weight:bold;color:var(--deep);font-size:clamp(1.5rem,5vw,2.1rem);text-align:center;margin-bottom:.9rem;line-height:1.2;background:linear-gradient(135deg,var(--deep),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.letter-body{font-family:Arial,sans-serif;font-size:clamp(.95rem,2.7vw,1.15rem);line-height:1.85;color:var(--deep)}
 .letter-body p{margin-bottom:.9rem}
-.letter-drop{float:left;font-family:'Playfair Display',serif;color:var(--rose);font-size:3.4rem;line-height:.75;margin-right:.1rem;margin-top:.12rem}
-.letter-sig{font-family:'Dancing Script',cursive;color:var(--rose);font-size:clamp(1.2rem,4vw,1.6rem);text-align:right;margin-top:.4rem;margin-bottom:.8rem}
+.letter-drop{float:left;font-family:Arial,sans-serif;font-weight:bold;color:var(--rose);font-size:3.4rem;line-height:.75;margin-right:.1rem;margin-top:.12rem}
+.letter-sig{font-family:Arial,sans-serif;font-weight:bold;color:var(--rose);font-size:clamp(1.2rem,4vw,1.6rem);text-align:right;margin-top:.4rem;margin-bottom:.8rem}
 .letter-deco-b{text-align:center;color:var(--gold);font-size:.95rem;letter-spacing:6px;margin-bottom:.9rem}
 .letter-nav{
   width:100%;
@@ -524,7 +664,7 @@ body{
   border-radius:50px;
   background:linear-gradient(135deg,var(--rose) 0%,#1a6aaa 100%);
   color:white;
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,sans-serif;
   font-size:1.02rem;
   letter-spacing:.08em;
   cursor:pointer;
@@ -544,14 +684,14 @@ body{
 #finalScreen{text-align:center}
 .final-emoji{font-size:3.5rem;margin-bottom:1rem;animation:flt 3s ease-in-out infinite;position:relative;z-index:1}
 @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.final-title{font-family:'Dancing Script',cursive;color:var(--gold);font-size:clamp(2rem,7vw,3.2rem);line-height:1.2;margin-bottom:1rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.final-msg{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--blush);font-size:clamp(1rem,2.5vw,1.2rem);line-height:1.8;max-width:380px;margin:0 auto 2rem;position:relative;z-index:1}
-.final-sig{font-family:'Dancing Script',cursive;color:var(--gold);font-size:1.6rem;margin-bottom:2rem;position:relative;z-index:1}
+.final-title{font-family:Arial,sans-serif;font-weight:bold;color:var(--gold);font-size:clamp(2rem,7vw,3.2rem);line-height:1.2;margin-bottom:1rem;position:relative;z-index:1;background:linear-gradient(135deg,var(--gold),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.final-msg{font-family:Arial,sans-serif;font-style:italic;color:var(--blush);font-size:clamp(1rem,2.5vw,1.2rem);line-height:1.8;max-width:380px;margin:0 auto 2rem;position:relative;z-index:1}
+.final-sig{font-family:Arial,sans-serif;font-weight:bold;color:var(--gold);font-size:1.6rem;margin-bottom:2rem;position:relative;z-index:1}
 .restart-btn{
   background:transparent;
   border:1.5px solid rgba(91,196,232,.5);
   color:var(--blush);
-  font-family:'Cormorant Garamond',serif;
+  font-family:Arial,sans-serif;
   font-style:italic;
   font-size:.95rem;
   padding:.6rem 2rem;
@@ -578,53 +718,15 @@ body{
 #qrToggle:hover{transform:scale(1.1);background:var(--gold);color:var(--deep)}
 #qrPanel{display:none;position:absolute;bottom:60px;right:0;background:white;border-radius:16px;padding:1.2rem;box-shadow:0 8px 40px rgba(13,37,64,.25);width:280px;text-align:center}
 #qrPanel.open{display:block}
-#qrPanel h3{font-family:'Playfair Display',serif;color:var(--deep);font-size:1rem;margin-bottom:.6rem}
-#qrPanel p{font-family:'Cormorant Garamond',serif;color:#888;font-size:.82rem;margin-bottom:.8rem;line-height:1.4}
-#urlInput{width:100%;border:1.5px solid #e0c9cb;border-radius:8px;padding:.5rem .7rem;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--deep);outline:none;margin-bottom:.6rem;-webkit-appearance:none;appearance:none}
+#qrPanel h3{font-family:Arial,sans-serif;font-weight:bold;color:var(--deep);font-size:1rem;margin-bottom:.6rem}
+#qrPanel p{font-family:Arial,sans-serif;color:#888;font-size:.82rem;margin-bottom:.8rem;line-height:1.4}
+#urlInput{width:100%;border:1.5px solid #e0c9cb;border-radius:8px;padding:.5rem .7rem;font-family:Arial,sans-serif;font-size:1rem;color:var(--deep);outline:none;margin-bottom:.6rem;-webkit-appearance:none;appearance:none}
 #urlInput:focus{border-color:var(--rose)}
-#genQrBtn{background:var(--rose);color:white;border:none;border-radius:8px;padding:.5rem 1.2rem;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:.95rem;width:100%;margin-bottom:.8rem;-webkit-appearance:none;appearance:none;touch-action:manipulation;transition:all 0.2s}
+#genQrBtn{background:var(--rose);color:white;border:none;border-radius:8px;padding:.5rem 1.2rem;cursor:pointer;font-family:Arial,sans-serif;font-size:.95rem;width:100%;margin-bottom:.8rem;-webkit-appearance:none;appearance:none;touch-action:manipulation;transition:all 0.2s}
 #genQrBtn:hover{background:#1a6aaa;transform:translateY(-1px)}
 #genQrBtn:active{background:#1a6aaa;transform:translateY(0)}
 #qrcode{display:-webkit-flex;display:flex;-webkit-justify-content:center;justify-content:center}
 #qrcode img,#qrcode canvas{border-radius:8px}
-
-/* Photo Upload Helper - Desktop only */
-#photoHelper{
-  position:fixed;
-  top:1.2rem;
-  left:1.2rem;
-  z-index:9998;
-  background:rgba(13,37,64,.9);
-  color:var(--gold);
-  padding:.8rem 1rem;
-  border-radius:12px;
-  font-family:'Cormorant Garamond',serif;
-  font-size:.85rem;
-  max-width:280px;
-  display:none;
-  border:1px solid rgba(91,196,232,.3);
-  box-shadow:0 4px 20px rgba(0,0,0,.3);
-}
-#photoHelper.show{display:block}
-#photoHelper h4{margin-bottom:.5rem;color:var(--coral)}
-#photoHelper ol{margin-left:1.2rem;line-height:1.6}
-#photoHelper li{margin-bottom:.3rem}
-#photoHelper button{
-  margin-top:.5rem;
-  background:var(--rose);
-  color:white;
-  border:none;
-  padding:.4rem 1rem;
-  border-radius:20px;
-  cursor:pointer;
-  font-family:inherit;
-}
-
-@media (max-width: 1023px), (hover: none), (pointer: coarse) {
-  #photoHelper {
-    display:none !important;
-  }
-}
 
 /* ANIMATIONS */
 @-webkit-keyframes fadeInUp{from{opacity:0;-webkit-transform:translateY(20px);transform:translateY(20px)}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}}
@@ -643,38 +745,138 @@ body{
   .keypad{gap:7px}.key{width:58px;height:58px}
   .bush{width:60px;height:60px}
   #catchArea{height:170px}
+  
+  .music-player-container{
+    height:300px;
+  }
+  
+  .back-btn{
+    width:36px;
+    height:36px;
+    font-size:1rem;
+  }
+  
+  .music-icon-btn{
+    width:40px;
+    height:40px;
+    font-size:1.1rem;
+  }
+}
+
+/* Hide back button on lock screen */
+#lockScreen .back-btn{
+  display:none !important;
 }
 </style>
+<base target="_blank">
 </head>
 <body>
 
 <!-- Loading Screen -->
 <div id="loader">
   <div class="loader-hearts">💕</div>
-  <div>Loading your surprise...</div>
-</div>
-
-<!-- Photo Upload Helper - Desktop Only -->
-<div id="photoHelper">
-  <h4>📸 How to Add Photos</h4>
-  <ol>
-    <li>Go to <strong>catbox.moe</strong> (recommended)</li>
-    <li>Upload your photo</li>
-    <li>Copy the direct URL</li>
-    <li>Paste in PHOTO_URLS array</li>
-  </ol>
-  <button onclick="document.getElementById('photoHelper').classList.remove('show')">Got it!</button>
+  <div>Be READY FETO your surprise is cooking...</div>
 </div>
 
 <div id="particles"></div>
 
+<!-- Back Button - LEFT MIDDLE POSITION -->
+<button class="back-btn" onclick="goBack()" title="Go Back">←</button>
+
+<!-- Music Icon - VISIBLE ON ALL DEVICES -->
+<button class="music-icon-btn" onclick="openMusicModal()" title="Play Music">🎧</button>
+
+<!-- Music Modal with Logo Fallback -->
+<div class="music-modal" id="musicModal">
+  <div class="music-modal-content">
+    <div class="music-modal-header">
+      <span class="music-modal-title">🎵 Our Love Playlist</span>
+      <button class="music-close-btn" onclick="closeMusicModal()">×</button>
+    </div>
+    
+    <!-- Tabs for Spotify/Anghami -->
+    <div class="music-tabs">
+      <button class="music-tab active" onclick="switchMusicTab('spotify')">Spotify</button>
+      <button class="music-tab" onclick="switchMusicTab('anghami')">Anghami</button>
+    </div>
+    
+    <!-- Spotify Player -->
+    <div class="music-player-container" id="spotifyPlayer">
+      <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX6VdMW310pj7" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy">
+      </iframe>
+    </div>
+    
+    <!-- Anghami Logo Fallback (instead of broken embed) -->
+    <div class="music-player-container" id="anghamiPlayer" style="display:none; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #591194 100%); flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem; position: relative; overflow: hidden;">
+      
+      <!-- Background decoration -->
+      <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(211,47,47,0.3) 0%, transparent 70%); animation: pulse 3s infinite;"></div>
+      
+      <!-- Logo Container -->
+      <div style="position: relative; z-index: 1;">
+        <!-- Music Icon Circle -->
+        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #25064e 0%, #591194 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 10px 30px rgba(211,47,47,0.4); animation: float 3s ease-in-out infinite;">
+          <span style="font-size: 3rem;">🎧</span>
+        </div>
+        
+        <!-- Brand Name -->
+        <div style="font-size: 2rem; font-weight: bold; color: white; margin-bottom: 0.5rem; font-family: Arial, sans-serif; letter-spacing: 2px; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">ANGHAMI</div>
+        
+        <!-- Tagline -->
+        <div style="color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 1rem;">hi baby IK you don't use anghami but this is for me</div>
+        
+        <!-- Animated equalizer -->
+        <div style="display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 30px; margin-bottom: 1.5rem;">
+          <div style="width: 4px; height: 10px; background: #1ed760; border-radius: 2px; animation: equalizer 0.5s infinite alternate;"></div>
+          <div style="width: 4px; height: 20px; background: #1ed760; border-radius: 2px; animation: equalizer 0.7s infinite alternate;"></div>
+          <div style="width: 4px; height: 15px; background: #1ed760; border-radius: 2px; animation: equalizer 0.4s infinite alternate;"></div>
+          <div style="width: 4px; height: 25px; background: #1ed760; border-radius: 2px; animation: equalizer 0.6s infinite alternate;"></div>
+          <div style="width: 4px; height: 12px; background: #1ed760; border-radius: 2px; animation: equalizer 0.5s infinite alternate;"></div>
+        </div>
+        
+        <p style="color: rgba(255,255,255,0.6); font-size: 0.75rem;">but you can hear here anytime</p>
+      </div>
+      
+      <style>
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        @keyframes equalizer {
+          from { transform: scaleY(0.3); }
+          to { transform: scaleY(1); }
+        }
+      </style>
+    </div>
+    
+    <!-- External Links -->
+    <div class="music-links">
+      <a href="https://open.spotify.com/playlist/37i9dQZF1DX6VdMW310pj7" 
+         target="_blank" 
+         class="music-link-btn spotify">
+        <span>🎵</span> Open in Spotify App
+      </a>
+      <a href="https://play.anghami.com/playlist/1050225170" 
+         target="_blank" 
+         class="music-link-btn anghami">
+        <span>🎶</span> Open in Anghami App
+      </a>
+    </div>
+  </div>
+</div>
 <!-- ══════════════════════
      LOCK SCREEN
 ══════════════════════ -->
 <div class="screen dark-bg" id="lockScreen">
   <div class="lock-logo">🔒</div>
   <h1 class="lock-title">A Secret Just For You</h1>
-  <p class="lock-sub">Enter our special code to unlock your surprise</p>
+  <p class="lock-sub">Enter our special date to unlock your surprise</p>
   <div class="code-dots" id="codeDots">
     <div class="dot" id="d0"></div><div class="dot" id="d1"></div>
     <div class="dot" id="d2"></div><div class="dot" id="d3"></div>
@@ -693,8 +895,8 @@ body{
 <div class="screen hidden" id="storyScreen">
   <div class="story-inner">
     <div class="story-header">
-      <h1>📖 The Tale of 🐱 & 🦝</h1>
-      <p>A very important story. Very serious. 100% true.</p>
+      <h1>📖 The Tale of 🐱(feto) & 🦝(nono) in other Universe </h1>
+      <p>A very important story. Very serious. pay attention! .</p>
     </div>
 
     <div class="story-chapters">
@@ -764,9 +966,9 @@ body{
           It just liked having somewhere to run to every morning.<br><br>
           And the raccoon? It always circled back. Left snacks on the doorstep.
           Saved a seat. Made sure the cat was never really alone.<br><br>
-          Some chases aren't about catching. They're about always finding your way
+          Some chases aren't about catching. They're about always finding a way
           back to each other. 🐱🦝
-          <span class="punchline">💙 Even if one of you keeps stealing the cereal.</span>
+          <span class="punchline">💙 Even if one of them keeps stealing the cereal.</span>
         </p>
       </div>
 
@@ -774,7 +976,7 @@ body{
 
     <p class="story-stars">✦ ✦ ✦</p>
     <button class="story-start-btn" onclick="goFromStory()">
-      Let the adventure begin! 🎮
+      play to get your gift feto play hard not smart 🎮
     </button>
 
   </div>
@@ -783,8 +985,8 @@ body{
 
 <div class="screen game-screen hidden" id="mazeScreen">
   <div id="mazePlayArea">
-    <p class="game-title">🐱 Find your way to the raccoon!</p>
-    <p class="game-sub">Navigate the maze — lots of dead ends! 🦝</p>
+    <p class="game-title">🐱 Find your way to the raccoon!(waiting for you babe)</p>
+    <p class="game-sub">Navigate the maze — lots of dead ends! 🦝 (do it babe please come and take me)</p>
     <canvas id="mazeCanvas"></canvas>
     <div class="dpad">
       <button class="db up"  onclick="movePlayer(-1,0)">↑</button>
@@ -796,8 +998,8 @@ body{
   <div class="game-win" id="mazeWin">
     <div class="win-emojis">🐱🦝</div>
     <h2>You found each other!</h2>
-    <p>The raccoon ran off again! Chase it! 😅</p>
-    <button class="g-btn" onclick="goToWhack()">Next challenge →</button>
+    <p>The raccoon ran off again!(HAHA i'm bullying you rn) Chase me! 😅</p>
+    <button class="g-btn" onclick="goToWhack()">chase the raccoon →</button>
   </div>
 </div>
 
@@ -807,15 +1009,15 @@ body{
 <div class="screen game-screen hidden" id="whackScreen">
   <div id="whackPlayArea">
     <p class="game-title">🐱 The raccoon is hiding!</p>
-    <p class="game-sub">Tap the bush where 🦝 peeks — catch 8! Gets faster… 👀</p>
+    <p class="game-sub">Tap the bush where 🦝 peeks — catch 8! (catch me if you can) Gets faster… 👀</p>
     <p class="game-score">Found: <span id="whackScore">0</span> / 8</p>
     <div class="whack-grid" id="whackGrid"></div>
   </div>
   <div class="game-win" id="whackWin">
     <div class="win-emojis">🐱🦝</div>
     <h2>Got you, raccoon!</h2>
-    <p>One last game and then your real surprise awaits… 🍓</p>
-    <button class="g-btn" onclick="goToCatch()">Last challenge →</button>
+    <p>One last game and then your real surprise awaits (believe me)… 🍓</p>
+    <button class="g-btn" onclick="goToCatch()">Last game →</button>
   </div>
 </div>
 
@@ -825,7 +1027,7 @@ body{
 <div class="screen game-screen hidden" id="catchScreen">
   <div id="catchPlayArea">
     <p class="game-title">🐱 Catch the hearts!</p>
-    <p class="game-sub">Move 🐱 left/right to catch the falling ❤️ — catch 10!</p>
+    <p class="game-sub">catch my raining hearts fetoooo ❤️ — catch 10!</p>
     <p class="game-score">Caught: <span id="catchScore">0</span> / 10</p>
     <div id="catchArea">
       <div id="catchRaccoon">🦝</div>
@@ -838,9 +1040,9 @@ body{
   </div>
   <div class="game-win" id="catchWin">
     <div class="win-emojis">🐱❤️🦝</div>
-    <h2>All hearts caught!</h2>
-    <p>Now for your real surprise… 💕</p>
-    <button class="g-btn" onclick="enterPhotos()">Open your surprise 🎁</button>
+    <h2>All hearts caught! i'm so proud of you habibi</h2>
+    <p>Now before your real surprise ILY babe 💕</p>
+    <button class="g-btn" onclick="enterPhotos()">Open my surprise 🎁</button>
   </div>
 </div>
 
@@ -851,133 +1053,133 @@ body{
 
   <!-- PAGE 1 -->
   <div class="page active" id="pg0">
-    <div class="page-top"><span class="page-counter">Memory 1 / 12</span><span class="page-hearts">❤️</span></div>
+    <div class="page-top"><span class="page-counter">APRIL 2025</span><span class="page-hearts">❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(0)">
       <img id="photo0" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph0" style="background:linear-gradient(135deg,#c0676b,#8c4649)">📸<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph0" style="background:linear-gradient(135deg,#c0676b,#8c4649)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">The day we met 🌸</p><p class="caption-text">"The moment I saw you, I knew my life would never be the same. You walked in and my heart decided — it's you."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">OUR FIRST </p><p class="caption-text">"The moment I saw you, I knew my life would never be the same. You walked in and my heart decided — it's you. I'LL MARRY YOU FETOOOOO!"</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 2 -->
   <div class="page" id="pg1">
-    <div class="page-top"><span class="page-counter">Memory 2 / 12</span><span class="page-hearts">❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">MAY 2025</span><span class="page-hearts">❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(1)">
       <img id="photo1" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph1" style="background:linear-gradient(135deg,#d4a056,#9a6a2a)">🌅<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph1" style="background:linear-gradient(135deg,#d4a056,#9a6a2a)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Our first date 🌙</p><p class="caption-text">"I was nervous. You laughed at everything I said. By the end of the night, I knew I never wanted to stop making you smile."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Hurry Engagement Proposal IK</p><p class="caption-text">"I was nervous. You laughed at everything even the rings. By the end of the night, I knew I never wanted to stop making you smile. Even if its bullying on me."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 3 -->
   <div class="page" id="pg2">
-    <div class="page-top"><span class="page-counter">Memory 3 / 12</span><span class="page-hearts">❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">JUNE 2025</span><span class="page-hearts">❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(2)">
       <img id="photo2" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph2" style="background:linear-gradient(135deg,#6b9ac0,#3a5f80)">🏖️<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph2" style="background:linear-gradient(135deg,#6b9ac0,#3a5f80)">📷</div>
     </div>
     <div class="caption-area"><p class="caption-date">Adventures together 🗺️</p><p class="caption-text">"Every place becomes my favourite when you're standing next to me. You make ordinary moments feel like magic."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 4 -->
   <div class="page" id="pg3">
-    <div class="page-top"><span class="page-counter">Memory 4 / 12</span><span class="page-hearts">❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">JULY 2025</span><span class="page-hearts">❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(3)">
       <img id="photo3" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph3" style="background:linear-gradient(135deg,#9b6bc0,#5e3a80)">🎉<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph3" style="background:linear-gradient(135deg,#9b6bc0,#5e3a80)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Celebrating us 🥂</p><p class="caption-text">"In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Celebrating Your Birthday Was The Best 🥂</p><p class="caption-text">"In all the world, there is no heart for me like yours. In all the world, there is no love for you like mine. بحبك قد البحر و سمكاته "</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 5 -->
   <div class="page" id="pg4">
-    <div class="page-top"><span class="page-counter">Memory 5 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">AUGUST 2025</span><span class="page-hearts">❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(4)">
       <img id="photo4" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph4" style="background:linear-gradient(135deg,#60b89a,#326b57)">☕<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph4" style="background:linear-gradient(135deg,#60b89a,#326b57)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Quiet days with you 🌿</p><p class="caption-text">"The best moments aren't the big ones. It's you, laughing too loud. It's quiet mornings. It's just being near you."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Quiet days with you 🌿</p><p class="caption-text">"The best moments aren't the big ones. It's you, laughing too loud. It's quiet mornings. It's just being near you.Even in hall 409 "</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 6 -->
   <div class="page" id="pg5">
-    <div class="page-top"><span class="page-counter">Memory 6 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">SEPTEMBER 2025</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(5)">
       <img id="photo5" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph5" style="background:linear-gradient(135deg,#c0676b,#6b3035)">💑<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph5" style="background:linear-gradient(135deg,#c0676b,#6b3035)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Us, always 💍</p><p class="caption-text">"I choose you. Today, tomorrow, and every day after. You are my home, my calm, my everything."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Us, always 💍</p><p class="caption-text">"I choose you. Today, tomorrow, and every day after. You are my home, my calm, my everything.Wink and wink and winkkkk ,your eyes are my weakness bitchy feto"</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 7 -->
   <div class="page" id="pg6">
-    <div class="page-top"><span class="page-counter">Memory 7 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">OCTOBER 2025</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(6)">
       <img id="photo6" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph6" style="background:linear-gradient(135deg,#e88c5a,#a05030)">🌄<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph6" style="background:linear-gradient(135deg,#e88c5a,#a05030)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Sunsets with you 🌅</p><p class="caption-text">"Every sunset is more beautiful when I get to watch it with you. You make the world glow a little warmer."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">wishing to Marry you getting bigger</p><p class="caption-text">"Every sunset is more beautiful when I get to watch it with you. You make the world glow a little warmer.we will retake this photo in our engagement session"</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 8 -->
   <div class="page" id="pg7">
-    <div class="page-top"><span class="page-counter">Memory 8 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">NOVEMBER 2025</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(7)">
       <img id="photo7" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph7" style="background:linear-gradient(135deg,#5a8fe8,#2a4fa0)">🍕<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph7" style="background:linear-gradient(135deg,#5a8fe8,#2a4fa0)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Our little rituals 🍽️</p><p class="caption-text">"The food always tastes better. The music sounds sweeter. Everything is simply better — because you're there."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Wifies in BLACK</p><p class="caption-text">"I love how silly, suspicious, and dangerous we are. music sounds sweeter.Halloween means something special. Everything is simply better — because you're there. ALWAYS BE THERE TETO"</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 9 -->
   <div class="page" id="pg8">
-    <div class="page-top"><span class="page-counter">Memory 9 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">DECEMBER 2025</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(8)">
       <img id="photo8" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph8" style="background:linear-gradient(135deg,#c05ab8,#6b2865)">🎶<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph8" style="background:linear-gradient(135deg,#c05ab8,#6b2865)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Dancing in the kitchen 🎵</p><p class="caption-text">"Some of the most precious moments have no filter, no audience — just you, me, and our song playing softly."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Our Little Moments 🎵</p><p class="caption-text">"Some of the most precious moments have no filter, no audience — just you, me, and our song playing softly in our airpods.Eating sweetcorn, felt like no other people in the world"</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 10 -->
   <div class="page" id="pg9">
-    <div class="page-top"><span class="page-counter">Memory 10 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">JANUARY 2026</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(9)">
       <img id="photo9" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph9" style="background:linear-gradient(135deg,#5abea8,#2a6b5c)">🌊<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph9" style="background:linear-gradient(135deg,#5abea8,#2a6b5c)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Getting lost together 🗺️</p><p class="caption-text">"We've gotten lost more times than I can count. But somewhere with you always feels exactly like where I'm meant to be."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Growing Beside Each Other</p><p class="caption-text">"I loved the way you listened when I needed you, the way you always support me making me feel calm in the most stressing time, your existing around feels like home.."</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 11 -->
   <div class="page" id="pg10">
-    <div class="page-top"><span class="page-counter">Memory 11 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">FEBRUARY 2026</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(10)">
       <img id="photo10" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph10" style="background:linear-gradient(135deg,#c9a84c,#7a5f1a)">🌙<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph10" style="background:linear-gradient(135deg,#c9a84c,#7a5f1a)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Late nights talking 🌠</p><p class="caption-text">"We talk for hours and still have more to say. You are the one person I never want to stop knowing more deeply."</p></div>
-    <button class="nav-btn" onclick="nextPage()">Next Memory →</button>
+    <div class="caption-area"><p class="caption-date">Special Moments</p><p class="caption-text">"Any time with you is a gift. You are the one person I never want to stop knowing more deeply.And tbh in the Opera i fell no one except you babe. "</p></div>
+    <button class="nav-btn" onclick="nextPage()">Next Month →</button>
   </div>
 
   <!-- PAGE 12 -->
   <div class="page" id="pg11">
-    <div class="page-top"><span class="page-counter">Memory 12 / 12</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
+    <div class="page-top"><span class="page-counter">MARCH 2026</span><span class="page-hearts">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</span></div>
     <div class="photo-frame upload-frame" onclick="pickPhoto(11)">
       <img id="photo11" src="" alt="" style="display:none">
-      <div class="photo-placeholder" id="ph11" style="background:linear-gradient(135deg,#c0676b,#3b1f22)">💞<span class="label">Tap to add photo</span></div>
+      <div class="photo-placeholder" id="ph11" style="background:linear-gradient(135deg,#c0676b,#3b1f22)">📷</div>
     </div>
-    <div class="caption-area"><p class="caption-date">Our forever 💌</p><p class="caption-text">"If I could live this life a thousand times, I would choose you in every single one. Happy Anniversary, my love."</p></div>
+    <div class="caption-area"><p class="caption-date">Our forever 💌</p><p class="caption-text">"If I could live this life a thousand times, I would choose you in every single one. Happy Anniversary, my love. I loved every day of this year with you, grateful that we began as friends and now spend our lives playing, teasing, and loving each other more deeply than I ever imagined.I want my death to be inside your arms wifey"</p></div>
     <button class="nav-btn" onclick="nextPage()">Read my letter to you 💌</button>
   </div>
 
@@ -990,8 +1192,8 @@ body{
       <div class="letter-body">
         <p><span class="letter-drop">I</span> don't know how to begin something this big, so I'll start with the truth: you are the greatest thing that has ever happened to me. Not just because you're beautiful — though you are, undeniably, in every light and at every hour. Not just because you make me laugh harder than anyone. But because of <em>who you are</em>, at your very core.</p>
         <p>You have this way of making every room feel warmer just by being in it. You have a laugh that sounds like the world is suddenly lighter. You have a heart so full of kindness that it spills out in everything you do — in the way you listen, in the way you care, in the way you love so completely and without condition.</p>
-        <p>I think about the version of me that existed before you, and I honestly can't recognise him. You've changed me — not by asking me to, but simply by being so extraordinarily yourself that I wanted to become someone worthy of standing beside you.</p>
-        <p>There have been ordinary days and there have been magical days, and somehow with you, I struggle to tell the difference. A Tuesday morning with you feels like a gift. Getting lost in the car with you is a memory I'll keep forever. Sitting in comfortable silence with you is one of my favourite things in this world.</p>
+        <p>I think about the version of me that existed before you, and I honestly can't recognise her, all i can recognize that i was falling inlove everyday harder and harder secretly for a whole year. You've changed me — not by asking me to, but simply by being so extraordinarily yourself that I wanted to become someone worthy of standing beside you.</p>
+        <p>There have been ordinary days and there have been magical days, and somehow with you, I struggle to tell the difference. A Tuesday morning with you feels like a gift. farghaly juice and street sidewalk with you is a memory I'll keep forever. Sitting in comfortable silence with you is one of my favourite things in this world.</p>
         <p>I want you to know that on the hard days — the ones where nothing seems to go right — you are still the first thought in my mind. Not as a burden, but as the reason I keep going. You are my favourite place to land.</p>
         <p>Thank you for every single day. Thank you for choosing me, for trusting me, for loving me the way you do. I promise I will spend every day doing everything I can to deserve you.</p>
         <p>I love you more than words, more than this page, more than every photo in this little album could ever hold. But I wanted to try anyway — because you deserve to be told, beautifully and often.</p>
@@ -1011,7 +1213,7 @@ body{
   <div class="story-inner" style="padding-top:max(1.2rem,env(safe-area-inset-top));">
     <div class="story-header">
       <h1 style="color:#1a5f8a;font-size:clamp(1.5rem,5.5vw,2.2rem);background:linear-gradient(135deg,#1a5f8a,var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">💙 When They Finally Stayed 💙</h1>
-      <p style="color:#2a7ab0;">A love story. Also 100% true.</p>
+      <p style="color:#2a7ab0;">Wait please READ HA?.</p>
     </div>
     <div class="story-chapters" style="--ch-border:rgba(26,95,138,.2);">
 
@@ -1021,7 +1223,7 @@ body{
         <div class="ch-title" style="color:#0d3a60;">The Night It All Changed</div>
         <p class="ch-text" style="color:#0d3a60;">
           One evening the raccoon didn't run. Just… sat down next to the cat.
-          The cat, confused, also sat. They watched the stars together in silence.<br><br>
+          The cat, confused, also sat. They watched the sky together in silence.<br><br>
           Nobody stole anything. Nobody chased anyone. It was, objectively,
           the strangest and most wonderful evening of both their lives.
           <span class="punchline" style="color:#1a5f8a;">⭐ The cat didn't even notice the cereal was gone. Almost.</span>
@@ -1078,7 +1280,7 @@ body{
         <p class="ch-text" style="color:#0d3a60;">
           Now the raccoon runs toward the cat. Every single time.<br><br>
           Through long days and quiet evenings, through difficult moments
-          and ridiculous ones — the raccoon always finds their way back.
+          and ridiculous ones — the raccoon always finds his way back.
           And the cat is always, always there waiting.<br><br>
           That's the whole story. That's everything.
           <span class="punchline" style="color:#1a5f8a;">💙 Home isn't a place. It's whoever runs back to you.</span>
@@ -1097,7 +1299,7 @@ body{
      AUTO GAME 1 — RACCOON FINDS CAT IN MAZE
 ══════════════════════ -->
 <div class="screen hidden" id="autoMazeScreen" style="background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0;">
-  <p class="game-title">🦝 The raccoon is finding the cat!</p>
+  <p class="game-title">🦝 My turn to chase you</p>
   <p class="game-sub" style="color:#a8d4ff;">Watch… 🐱</p>
   <canvas id="autoMazeCanvas" style="border:2.5px solid var(--gold);border-radius:10px;display:block;margin:.4rem auto;box-shadow:0 0 20px rgba(91,196,232,.3);"></canvas>
   <div class="game-win" id="autoMazeWin">
@@ -1113,7 +1315,7 @@ body{
 ══════════════════════ -->
 <div class="screen hidden" id="autoWhackScreen" style="background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);padding:.5rem .4rem;text-align:center;gap:0;">
   <p class="game-title">🦝 Looking for the cat in the bushes!</p>
-  <p class="game-sub" style="color:#a8d4ff;">Where is that cat hiding? 🐱</p>
+  <p class="game-sub" style="color:#a8d4ff;">Where is that cat hiding? Where is you babee?? 🐱</p>
   <p class="game-score">Found: <span id="autoWhackScore">0</span> / 8</p>
   <div id="autoWhackPlayArea" style="display:flex;flex-direction:column;align-items:center;gap:.7rem;">
     <div class="whack-grid" id="autoWhackGrid"></div>
@@ -1151,12 +1353,12 @@ body{
 <div class="screen hidden" id="finalScreen" style="background:linear-gradient(160deg,#0a1e3a 0%,#0d3060 50%,#0a1e3a 100%);">
   <div class="final-emoji">💙</div>
   <h1 class="final-title">Happy Anniversary,<br>My Everything</h1>
-  <p class="final-msg">From that first moment to every moment still to come — I am the luckiest person alive to love you and be loved by you. Thank you for choosing me, every single day.</p>
+  <p class="final-msg">From that first moment to every moment still to come — I am the luckiest person alive to love you and be loved by you. Thank you for choosing me, every single day. One day i'll marry you Feto i promise to be a better person for you from now on, i hope every breathe is with you. LOVE YOU more than H2O in the whole Universe habibi</p>
   <p class="final-sig">Forever yours, [Your Name] 💕</p>
   <button class="restart-btn" onclick="restart()">↩ Relive our memories</button>
 </div>
 
-<!-- QR TOOL - Hidden on mobile -->
+<!-- QR - Hidden on mobile -->
 <div id="qrTool">
   <button id="qrToggle" onclick="toggleQR()" title="QR Code">⬛</button>
   <div id="qrPanel">
@@ -1168,8 +1370,8 @@ body{
   </div>
 </div>
 
-<!-- Hidden file picker for photo uploads - Desktop only -->
-<input type="file" id="photoFilePicker" accept="image/*" style="display:none" onchange="handlePhotoFile(event)">
+<!-- Hidden file picker for photo uploads - All devices -->
+<input type="file" id="photoFilePicker" accept="image/*" capture="environment" style="display:none" onchange="handlePhotoFile(event)">
 
 <script>
 // ═══════════════════════════════════════════════════════════════
@@ -1183,26 +1385,37 @@ const SECRET_CODE = "1404"; // Change this! Example: "0520" for May 20
 // RECOMMENDED: Use catbox.moe or imgbb.com - upload and copy the direct URL
 // Must be HTTPS URLs for Cloudflare Pages
 const PHOTO_URLS = [
-    "https://files.catbox.moe/tq5ry1.jpeg", // Memory 1 - The day we met
-    "https://files.catbox.moe/h755at.jpeg", // Memory 2 - Our first date
-    "https://files.catbox.moe/vxgjzk.jpeg", // Memory 3 - Adventures together
-    "https://files.catbox.moe/49zmxn.jpeg", // Memory 4 - Celebrating us
-    "https://files.catbox.moe/91m44x.jpeg", // Memory 5 - Quiet days with you
+    "https://files.catbox.moe/w72522.jpeg", // Memory 1 - The day we met
+    "https://files.catbox.moe/46dw9o.jpeg", // Memory 2 - Our first date
+    "https://files.catbox.moe/6i5wy5.jpeg", // Memory 3 - Adventures together
+    "https://files.catbox.moe/3ih42d.jpeg", // Memory 4 - Celebrating us
+    "https://files.catbox.moe/g20xke.jpeg", // Memory 5 - Quiet days with you
     "https://files.catbox.moe/ufsfmz.jpeg", // Memory 6 - Us, always
-    "https://files.catbox.moe/j8omdx.jpeg", // Memory 7 - Sunsets with you
-    "https://files.catbox.moe/4sfyg4.jpeg", // Memory 8 - Our little rituals
-    "https://files.catbox.moe/cmphhw.jpeg", // Memory 9 - Dancing in the kitchen
-    "https://files.catbox.moe/kmdobk.jpeg", // Memory 10 - Getting lost together
-    "https://files.catbox.moe/nfo3cd.jpeg", // Memory 11 - Late nights talking
+    "https://files.catbox.moe/ojynjd.jpeg", // Memory 7 - Sunsets with you
+    "https://files.catbox.moe/ld0kkb.jpeg", // Memory 8 - Our little rituals
+    "https://files.catbox.moe/ekgr7q.jpeg", // Memory 9 - Dancing in the kitchen
+    "https://files.catbox.moe/n2dp1d.jpeg", // Memory 10 - Getting lost together
+    "https://files.catbox.moe/z8h94o.jpeg", // Memory 11 - Late nights talking
     ""  // Memory 12 - Our forever
 ];
 
+// 🎵 MUSIC CONFIGURATION - Add your playlist URLs here
+const SPOTIFY_PLAYLIST_URL = "https://open.spotify.com/embed/playlist/0utTbESOl3Mmgq7mMPlH7H?si=8YC48SVrRI6el0PsMJotuw&pi=y6dWu66cR6ami"; // Replace with your playlist
+const ANGHAMI_PLAYLIST_URL = "https://play.anghami.com/playlist/1050225170"; // Replace with your playlist
+const SPOTIFY_APP_URL = "https://open.spotify.com/playlist/37i9dQZF1DX6VdMW310pj7"; // Deep link to open app
+const ANGHAMI_APP_URL = "https://play.anghami.com/playlist/1050225170"; // Deep link to open app
+
 // ✏️ Change to your name
-const YOUR_NAME = "NEHAL";
+const YOUR_NAME = "Nehal";
 
 // ═══════════════════════════════════════════════════════════════
 // END CONFIGURATION
 // ═══════════════════════════════════════════════════════════════
+
+// Navigation History Stack - Now tracks page-by-page for photos too
+let navHistory = [];
+let currentScreen = 'lockScreen';
+let previousPageIndex = -1; // For photo slideshow back navigation
 
 // Update name in letter and final screen
 document.addEventListener('DOMContentLoaded', () => {
@@ -1228,16 +1441,10 @@ window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('loader').style.opacity = '0';
         setTimeout(() => document.getElementById('loader').remove(), 500);
-    }, 800);
+    }, 900);
     loadPhotosFromURLs();
     checkMobileForQR();
-    
-    // Show photo helper only on desktop
-    const isDesktop = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
-    if(isDesktop && !localStorage.getItem('photoHelperSeen')) {
-        document.getElementById('photoHelper').classList.add('show');
-        localStorage.setItem('photoHelperSeen', 'true');
-    }
+    updateMusicLinks(); // Update music links from config
 });
 
 // ── Mobile QR Check ──
@@ -1248,10 +1455,89 @@ function checkMobileForQR() {
     }
 }
 
-// ── Helpers ──
-function showScreen(hide,show){
-  document.getElementById(hide).classList.add('hidden');
-  document.getElementById(show).classList.remove('hidden');
+// ── Music Modal Functions ──
+function openMusicModal() {
+    document.getElementById('musicModal').classList.add('show');
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMusicModal() {
+    document.getElementById('musicModal').classList.remove('show');
+    // Restore background scrolling
+    document.body.style.overflow = '';
+}
+
+function switchMusicTab(platform) {
+    // Update tab buttons
+    document.querySelectorAll('.music-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Show/hide players
+    if (platform === 'spotify') {
+        document.getElementById('spotifyPlayer').style.display = 'block';
+        document.getElementById('anghamiPlayer').style.display = 'none';
+    } else {
+        document.getElementById('spotifyPlayer').style.display = 'none';
+        document.getElementById('anghamiPlayer').style.display = 'flex';
+    }
+}
+
+function updateMusicLinks() {
+    // Update iframe sources
+    document.querySelector('#spotifyPlayer iframe').src = SPOTIFY_PLAYLIST_URL;
+    document.querySelector('#anghamiPlayer iframe').src = ANGHAMI_PLAYLIST_URL;
+    
+    // Update external links
+    document.querySelector('.music-link-btn.spotify').href = SPOTIFY_APP_URL;
+    document.querySelector('.music-link-btn.anghami').href = ANGHAMI_APP_URL;
+}
+
+// Close modal when clicking outside
+document.getElementById('musicModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeMusicModal();
+    }
+});
+
+// ── Back Button Navigation - PAGE BY PAGE ──
+function goBack() {
+    // If we're in photo slideshow and not on first page, go back one photo
+    if (currentScreen === 'photoScreen' && curPage > 0) {
+        // Hide current page
+        document.getElementById(PAGE_IDS[curPage]).classList.remove('active');
+        // Go to previous page
+        curPage--;
+        // Show previous page
+        document.getElementById(PAGE_IDS[curPage]).classList.add('active');
+        return;
+    }
+    
+    // If we're in photo slideshow on first page, or other screens, use history
+    if (navHistory.length > 0) {
+        const previousScreen = navHistory.pop();
+        showScreen(currentScreen, previousScreen, false);
+    }
+}
+
+function showScreen(hide, show, saveHistory = true) {
+    if (saveHistory && hide !== show) {
+        navHistory.push(hide);
+    }
+    document.getElementById(hide).classList.add('hidden');
+    document.getElementById(show).classList.remove('hidden');
+    currentScreen = show;
+    
+    // Show/hide back button based on screen
+    const backBtn = document.querySelector('.back-btn');
+    if (show === 'lockScreen') {
+        backBtn.style.display = 'none';
+        navHistory = []; // Reset history on lock screen
+    } else {
+        backBtn.style.display = 'flex';
+    }
 }
 
 function goFromStory(){showScreen('storyScreen','mazeScreen');buildMaze();}
@@ -1573,17 +1859,10 @@ document.addEventListener('keyup',e=>{
 
 function enterPhotos(){showScreen('catchScreen','photoScreen');}
 
-// ── Photo System ──
+// ── Photo System - Works on ALL devices ──
 let _pickingSlot = 0;
 
-function isUploadSupported() {
-    return window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)').matches;
-}
-
 function pickPhoto(slot){
-    if(!isUploadSupported()) {
-        return;
-    }
     _pickingSlot = slot;
     const picker = document.getElementById('photoFilePicker');
     picker.value = '';
@@ -1635,12 +1914,7 @@ function loadPhotosFromURLs() {
         img.onerror = function() {
           console.error('Failed to load image:', PHOTO_URLS[i]);
           img.style.display = 'none';
-          if(window.innerWidth < 1024 || !window.matchMedia('(hover: hover)').matches) {
-            ph.style.display = 'none';
-            img.closest('.photo-frame').classList.add('no-photo-mobile');
-          } else {
-            ph.style.display = 'flex';
-          }
+          ph.style.display = 'flex';
           img.closest('.upload-frame').classList.remove('has-photo');
         };
       }
@@ -1653,8 +1927,6 @@ function loadPhotosFromURLs() {
 }
 
 function restorePhotosFromStorage(){
-  if(!isUploadSupported()) return;
-  
   for(let i=0;i<12;i++){
     try{
       const saved = localStorage.getItem('anniv_photo_'+i);
@@ -1686,6 +1958,7 @@ function nextPage(){
 function showLoveStory(){
   document.getElementById('photoScreen').classList.add('hidden');
   document.getElementById('loveStoryScreen').classList.remove('hidden');
+  currentScreen = 'loveStoryScreen';
 }
 function goToAutoGames(){
   showScreen('loveStoryScreen','autoMazeScreen');
@@ -1924,6 +2197,7 @@ function showFinal(){
     const el=document.getElementById(id); if(el) el.classList.add('hidden');
   });
   document.getElementById('finalScreen').classList.remove('hidden');
+  currentScreen = 'finalScreen';
 }
 
 function restart(){
@@ -1931,6 +2205,8 @@ function restart(){
   curPage=0;document.getElementById('pg0').classList.add('active');
   document.getElementById('finalScreen').classList.add('hidden');
   document.getElementById('photoScreen').classList.remove('hidden');
+  currentScreen = 'photoScreen';
+  navHistory = [];
 }
 
 // ── QR ──
