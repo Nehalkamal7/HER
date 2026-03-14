@@ -666,52 +666,6 @@ body {
 }
 .restart-btn:hover,.restart-btn:active{background:rgba(91,196,232,.1);border-color:var(--gold);color:var(--gold)}
 
-/* ─── NFC BUTTON ─────────────────────────────────────────────
-   Sits next to the QR button in bottom-right corner.
-   Visible on Android Chrome (supports Web NFC).
-   On iOS, tapping explains what to do instead.
-*/
-#nfcBtn{
-  position:fixed;
-  bottom:max(calc(1.2rem + 60px), calc(env(safe-area-inset-bottom, 0px) + 80px));
-  right:max(1.2rem, env(safe-area-inset-right, 0px));
-  z-index:9999;
-  width:48px;height:48px;
-  border-radius:50%;
-  background:var(--deep);
-  border:2px solid var(--gold);
-  color:var(--gold);
-  font-size:1.3rem;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 15px rgba(0,0,0,.3);
-  min-height:44px;min-width:44px;
-  touch-action:manipulation;
-  transition:all .2s;
-  user-select:none;
-}
-#nfcBtn:hover{transform:scale(1.1);background:var(--gold);color:var(--deep)}
-
-/* NFC status toast */
-#nfcToast{
-  position:fixed;
-  bottom: max(80px, calc(env(safe-area-inset-bottom,0px) + 70px));
-  left:50%;transform:translateX(-50%) translateY(20px);
-  background:rgba(13,37,64,.95);
-  color:var(--gold);
-  border:1.5px solid var(--gold);
-  border-radius:12px;
-  padding:0.7rem 1.2rem;
-  font-size:clamp(.8rem,3vw,.9rem);
-  text-align:center;
-  max-width:min(85vw,320px);
-  z-index:9998;
-  opacity:0;
-  transition:opacity .3s,transform .3s;
-  pointer-events:none;
-}
-#nfcToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
 /* ─── QR TOOL ─── */
 #qrTool{
   position:fixed;
@@ -1251,14 +1205,6 @@ body {
   <button class="restart-btn" onclick="restart()">↩ Relive our memories</button>
 </div>
 
-<!-- ══════════════════════════════
-     NFC BUTTON
-     📱 Android Chrome: writes URL to NFC tag
-     🍎 iOS: shows instructions (no Web NFC support on iOS)
-════════════════════════════════ -->
-<button id="nfcBtn" onclick="handleNFC()" title="Share via NFC" aria-label="Share via NFC">📡</button>
-<div id="nfcToast"></div>
-
 <!-- QR TOOL (desktop only) -->
 <div id="qrTool">
   <button id="qrToggle" onclick="toggleQR()" title="QR Code" aria-label="Generate QR Code">⬛</button>
@@ -1322,7 +1268,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   checkMobileForQR();
   loadPhotosFromURLs();
-  initNFC();
 });
 
 // ── Particles ──
@@ -1400,7 +1345,7 @@ function checkMobileForQR() {
 }
 function toggleQR() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  if (isMobile) { showNFCToast('Share via NFC 📡 or copy this URL:\n' + window.location.href); return; }
+  if (isMobile) { alert('Share this link:\n' + window.location.href); return; }
   document.getElementById('qrPanel').classList.toggle('open');
 }
 function generateQR() {
@@ -1412,112 +1357,6 @@ function generateQR() {
     colorDark: '#0d2540', colorLight: '#ffffff',
     correctLevel: QRCode.CorrectLevel.H
   });
-}
-
-// ═══════════════════════════════════════════════════════
-//  NFC SUPPORT
-//  ─────────────────────────────────────────────────────
-//  HOW IT WORKS:
-//
-//  ANDROID (Chrome 89+):
-//    • Uses the Web NFC API (NDEFReader)
-//    • Tap the 📡 button → phone asks you to hold an
-//      NFC tag near the back → URL is written to the tag
-//    • Anyone who taps the tag → phone opens this page
-//    • Requires: https (not localhost), user gesture,
-//      Chrome on Android, NFC enabled in phone settings
-//
-//  iOS (Safari / Chrome):
-//    • Apple does NOT allow Web NFC in the browser
-//    • On iOS we show instructions to use the
-//      "NFC Tools" app (free on App Store) to write
-//      the URL manually to the tag
-//    • When tapped, iOS 13+ phones auto-open the URL
-//      in Safari without any extra app
-//
-//  NFC TAG TO BUY:
-//    • NTAG213 stickers (~$0.30 each) — any phone can read
-//    • NTAG215 — slightly larger storage, still tiny
-//    • Search: "NFC NTAG213 sticker" on Amazon/Noon
-// ═══════════════════════════════════════════════════════
-
-function initNFC() {
-  // Show NFC button only on mobile devices
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  document.getElementById('nfcBtn').style.display = isMobile ? 'flex' : 'none';
-}
-
-function showNFCToast(msg, duration = 4000) {
-  const t = document.getElementById('nfcToast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration);
-}
-
-async function handleNFC() {
-  const isAndroid = /Android/i.test(navigator.userAgent);
-  const isIOS     = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-  const url       = window.location.href;
-
-  // ── ANDROID: try Web NFC API ──
-  if (isAndroid && 'NDEFReader' in window) {
-    try {
-      showNFCToast('📡 Hold an NFC tag near the back of your phone…', 8000);
-      const ndef = new NDEFReader();
-      await ndef.write({
-        records: [{ recordType: "url", data: url }]
-      });
-      showNFCToast('✅ NFC tag written! Anyone who taps it opens this surprise 💕', 5000);
-    } catch (err) {
-      if (err.name === 'NotAllowedError') {
-        showNFCToast('🔒 NFC permission denied. Enable NFC in phone settings.', 4000);
-      } else if (err.name === 'NotSupportedError') {
-        showNFCToast('📵 NFC not available. Enable NFC in phone settings and try again.', 4000);
-      } else {
-        // Fallback: copy URL
-        copyURLFallback(url);
-      }
-    }
-    return;
-  }
-
-  // ── ANDROID without Web NFC support ──
-  if (isAndroid) {
-    showNFCToast('📱 Update Chrome to latest version to use NFC writing.', 4000);
-    return;
-  }
-
-  // ── iOS ──
-  if (isIOS) {
-    // iOS doesn't support Web NFC — show instructions
-    const msg =
-      'To share via NFC on iPhone:\n\n' +
-      '1. Download "NFC Tools" (free, App Store)\n' +
-      '2. Tap Write → Add a record → URL\n' +
-      '3. Paste this URL:\n' + url + '\n\n' +
-      '4. Hold NFC tag to back of phone → Write\n\n' +
-      'Anyone who taps the tag will open this surprise automatically 💕';
-    // Try to copy to clipboard first
-    try {
-      await navigator.clipboard.writeText(url);
-      alert('📋 URL copied!\n\n' + msg);
-    } catch {
-      alert(msg);
-    }
-    return;
-  }
-
-  // ── Desktop fallback ──
-  copyURLFallback(url);
-}
-
-async function copyURLFallback(url) {
-  try {
-    await navigator.clipboard.writeText(url);
-    showNFCToast('📋 URL copied to clipboard! Paste it into NFC Tools app.', 4000);
-  } catch {
-    showNFCToast('Copy this URL: ' + url, 8000);
-  }
 }
 
 // ── LOCK ──
