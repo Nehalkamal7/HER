@@ -213,7 +213,7 @@ body {
 /* Player: iframe is taller than container so Spotify's blank bottom is clipped */
 .music-player-container{
   width:100%;
-  height:clamp(280px, 58dvh, 440px);
+  height:clamp(240px, 48dvh, 380px);
   border-radius:12px;
   overflow:hidden;
   background:#121212;
@@ -221,7 +221,7 @@ body {
 }
 .music-player-container iframe{
   width:100%;
-  height:115%;   /* taller than container — blank bottom gets clipped */
+  height:155%;   /* taller than container — blank bottom gets clipped */
   border:none;
   display:block;
   margin-top:-1px;
@@ -316,10 +316,10 @@ body {
 /* ─── GAME SCREENS ─── */
 .game-screen{
   background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);
-  padding:calc(var(--safe-top) + 0.5rem) 0.5rem calc(var(--safe-bottom) + 0.5rem);
+  padding:calc(var(--safe-top) + 0.3rem) 0.5rem calc(var(--safe-bottom) + 0.3rem);
   text-align:center;
-  gap:0.4rem;
-  justify-content:center;   /* ← centered vertically on every device */
+  gap:0.25rem;
+  justify-content:center;
   align-items:center;
 }
 .game-title{
@@ -817,6 +817,10 @@ body {
   .key{font-size:1.1rem}
   #mazeCanvas{max-height:32dvh}
   #catchArea{height:min(28dvh,160px)}
+  .game-screen{gap:0.1rem;padding-top:calc(var(--safe-top) + 0.1rem);padding-bottom:calc(var(--safe-bottom) + 0.1rem)}
+  .game-title{font-size:clamp(0.8rem,3.5vw,1rem);margin-bottom:0}
+  .game-sub{font-size:clamp(0.65rem,2.5vw,0.75rem);margin-bottom:0}
+  .game-score{font-size:clamp(0.75rem,2.8vw,0.9rem);margin-bottom:0}
 }
 
 /* ─── SAMSUNG S22 + TYPICAL ANDROID (360–390px wide) ─── */
