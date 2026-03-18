@@ -1691,10 +1691,11 @@ document.addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRigh
 function enterPhotos(){showScreen('catchScreen','photoScreen');}
 
 // ── Photo System ──
-let _pickingSlot=0;
-function pickPhoto(slot){
-  _pickingSlot=slot;
-  const p=document.getElementById('photoFilePicker');p.value='';p.click();
+function pickPhoto(slot)
+{
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  if(isMobile) return;
+  _pickingSlot=slot; const p=document.getElementById('photoFilePicker');p.value='';p.click();
 }
 function handlePhotoFile(e){
   const file=e.target.files[0];if(!file)return;
@@ -1735,6 +1736,8 @@ function restorePhotosFromStorage(){
 
 // ── Video System ──
 function pickVideo(){
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  if(isMobile) return;
   const input=document.createElement('input');
   input.type='file';
   input.accept='video/*';
