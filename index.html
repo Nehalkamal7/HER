@@ -32,6 +32,7 @@ html {
   height: 100dvh;
   height: -webkit-fill-available;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 body {
@@ -47,6 +48,8 @@ body {
   text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+  touch-action: manipulation;
 }
 
 /* ─── LOADER ─── */
@@ -210,7 +213,7 @@ body {
 /* Player: iframe is taller than container so Spotify's blank bottom is clipped */
 .music-player-container{
   width:100%;
-  height:352px;
+  height:clamp(200px, 45dvh, 352px);
   border-radius:12px;
   overflow:hidden;
   background:#121212;
@@ -218,7 +221,7 @@ body {
 }
 .music-player-container iframe{
   width:100%;
-  height:152%;   /* taller than container — blank bottom gets clipped */
+  height:160%;   /* taller than container — blank bottom gets clipped */
   border:none;
   display:block;
   margin-top:-1px;
@@ -514,6 +517,7 @@ body {
   width:100%;height:100%;
   padding:var(--safe-top) 1rem var(--safe-bottom);
   overflow-y:auto;-webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
 }
 .page.active{display:flex}
 .page-top{
@@ -1359,13 +1363,16 @@ const VIDEO_URL = "https://files.catbox.moe/5d5igt.mp4"; // Paste your Catbox vi
 // ── Fix viewport height on Android (address bar) ──
 function setAppHeight() {
   // window.innerHeight is the TRUE visible height (no address bar)
-  const h = window.innerHeight;
+   const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   document.documentElement.style.setProperty('--app-h', h + 'px');
   document.body.style.height = h + 'px';
 }
 setAppHeight();
 window.addEventListener('resize', setAppHeight);
-window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 150));
+window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 200));
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', setAppHeight);
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
