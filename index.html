@@ -32,7 +32,6 @@ html {
   height: 100dvh;
   height: -webkit-fill-available;
   overflow: hidden;
-  overscroll-behavior: none;
 }
 
 body {
@@ -48,8 +47,6 @@ body {
   text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overscroll-behavior: none;
-  touch-action: manipulation;
 }
 
 /* ─── LOADER ─── */
@@ -213,7 +210,7 @@ body {
 /* Player: iframe is taller than container so Spotify's blank bottom is clipped */
 .music-player-container{
   width:100%;
-  height:clamp(240px, 48dvh, 380px);
+  height:352px;
   border-radius:12px;
   overflow:hidden;
   background:#121212;
@@ -221,7 +218,7 @@ body {
 }
 .music-player-container iframe{
   width:100%;
-  height:155%;   /* taller than container — blank bottom gets clipped */
+  height:152%;   /* taller than container — blank bottom gets clipped */
   border:none;
   display:block;
   margin-top:-1px;
@@ -316,10 +313,10 @@ body {
 /* ─── GAME SCREENS ─── */
 .game-screen{
   background:linear-gradient(160deg,#071428 0%,#0a2248 50%,#071428 100%);
-  padding:calc(var(--safe-top) + 0.3rem) 0.5rem calc(var(--safe-bottom) + 0.3rem);
+  padding:calc(var(--safe-top) + 0.5rem) 0.5rem calc(var(--safe-bottom) + 0.5rem);
   text-align:center;
-  gap:0.25rem;
-  justify-content:center;
+  gap:0.4rem;
+  justify-content:center;   /* ← centered vertically on every device */
   align-items:center;
 }
 .game-title{
@@ -517,7 +514,6 @@ body {
   width:100%;height:100%;
   padding:var(--safe-top) 1rem var(--safe-bottom);
   overflow-y:auto;-webkit-overflow-scrolling:touch;
-  overscroll-behavior-y:contain;
 }
 .page.active{display:flex}
 .page-top{
@@ -817,10 +813,6 @@ body {
   .key{font-size:1.1rem}
   #mazeCanvas{max-height:32dvh}
   #catchArea{height:min(28dvh,160px)}
-  .game-screen{gap:0.1rem;padding-top:calc(var(--safe-top) + 0.1rem);padding-bottom:calc(var(--safe-bottom) + 0.1rem)}
-  .game-title{font-size:clamp(0.8rem,3.5vw,1rem);margin-bottom:0}
-  .game-sub{font-size:clamp(0.65rem,2.5vw,0.75rem);margin-bottom:0}
-  .game-score{font-size:clamp(0.75rem,2.8vw,0.9rem);margin-bottom:0}
 }
 
 /* ─── SAMSUNG S22 + TYPICAL ANDROID (360–390px wide) ─── */
@@ -828,18 +820,6 @@ body {
   .music-player-container,.anghami-display{height:clamp(230px,40dvh,310px)}
   .photo-frame{max-width:min(88vw,370px)}
   .keypad{max-width:270px}
-  .game-screen{gap:0.15rem;padding-top:calc(var(--safe-top) + 0.2rem);padding-bottom:calc(var(--safe-bottom) + 0.2rem)}
-  .game-title{font-size:clamp(0.85rem,3.8vw,1.1rem);margin-bottom:0.1rem}
-  .game-sub{font-size:clamp(0.7rem,2.5vw,0.8rem);margin-bottom:0.1rem}
-  .game-score{font-size:clamp(0.8rem,3vw,0.95rem);margin-bottom:0.1rem}
-  #mazeCanvas{max-height:33dvh}
-  #catchArea{height:min(30dvh,180px)}
-  .dpad{gap:5px;width:52vw}
-  .db{min-height:40px;min-width:40px}
-  .whack-grid{gap:8px}
-  .bush{min-height:40px;min-width:40px}
-  .video-frame{max-height:min(48dvh,340px)}
-  .video-frame video{max-height:min(48dvh,340px)}
 }
 
 /* ─── LARGE PHONES (iPhone Pro Max, S23 Ultra) ─── */
@@ -1379,16 +1359,13 @@ const VIDEO_URL = "https://files.catbox.moe/5d5igt.mp4"; // Paste your Catbox vi
 // ── Fix viewport height on Android (address bar) ──
 function setAppHeight() {
   // window.innerHeight is the TRUE visible height (no address bar)
-   const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const h = window.innerHeight;
   document.documentElement.style.setProperty('--app-h', h + 'px');
   document.body.style.height = h + 'px';
 }
 setAppHeight();
 window.addEventListener('resize', setAppHeight);
-window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 200));
-if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', setAppHeight);
-}
+window.addEventListener('orientationchange', () => setTimeout(setAppHeight, 150));
 
 
 document.addEventListener('DOMContentLoaded', () => {
