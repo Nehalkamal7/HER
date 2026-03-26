@@ -210,21 +210,18 @@ body {
 /* Player: iframe is taller than container so Spotify's blank bottom is clipped */
 .music-player-container{
   width:100%;
-  aspect-ratio:16/9;      /* Maintains perfect video-like ratio */
+  height:352px;
   border-radius:12px;
   overflow:hidden;
   background:#121212;
   flex-shrink:0;
-  position:relative;      /* Required for iframe positioning */
-  min-height:280px;       /* Ensures it's never too small */
 }
 .music-player-container iframe{
-  position:absolute;      /* Fills container exactly */
-  inset:0;               /* top:0; right:0; bottom:0; left:0 */
   width:100%;
-  height:100%;           /* No more 152% hack */
+  height:152%;   /* taller than container — blank bottom gets clipped */
   border:none;
   display:block;
+  margin-top:-1px;
 }
 @media(max-height:700px){
   .music-player-container{ height:280px; }
@@ -808,12 +805,9 @@ body {
 
 /* ─── SMALL HEIGHT (iPhone SE landscape, short phones) ─── */
 @media(max-height:640px){
-  .music-player-container,.anghami-display{
-    aspect-ratio:16/9;
-    height:auto;
-    min-height:200px;
-    max-height:280px;
-}
+  .photo-frame{max-height:38dvh}
+  .photo-frame img{max-height:38dvh}
+  .music-player-container,.anghami-display{height:clamp(150px,45dvh,220px)}
   .lock-logo{font-size:2rem}
   .keypad{gap:6px;max-width:230px}
   .key{font-size:1.1rem}
@@ -823,20 +817,14 @@ body {
 
 /* ─── SAMSUNG S22 + TYPICAL ANDROID (360–390px wide) ─── */
 @media(min-width:360px) and (max-width:430px){
-  .music-player-container,.anghami-display{
-    aspect-ratio:16/9;
-    height:auto;
-    min-height:300px;    /* Perfect height for S22 screen */
-    max-height:380px;
+  .music-player-container,.anghami-display{height:clamp(230px,40dvh,310px)}
+  .photo-frame{max-width:min(88vw,370px)}
+  .keypad{max-width:270px}
 }
+
 /* ─── LARGE PHONES (iPhone Pro Max, S23 Ultra) ─── */
 @media(min-width:390px) and (min-height:800px){
-  .music-player-container,.anghami-display{
-    aspect-ratio:16/9;
-    height:auto;
-    min-height:340px;
-    max-height:420px;
-}
+  .music-player-container,.anghami-display{height:clamp(260px,42dvh,340px)}
   .photo-frame{max-height:min(54dvh,450px)}
   .photo-frame img{max-height:min(54dvh,450px)}
 }
