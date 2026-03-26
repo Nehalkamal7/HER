@@ -144,7 +144,6 @@ body {
 .music-icon-btn:hover,.music-icon-btn:active{transform:scale(1.1)}
 
 /* ─── MUSIC MODAL — exactly as original ─── */
-/* ─── MUSIC MODAL — FIXED FOR ALL DEVICES ─── */
 .music-modal{
   display:none;
   position:fixed;top:0;left:0;right:0;bottom:0;
@@ -163,14 +162,13 @@ body {
   border-radius:20px;
   padding:clamp(1rem,4vw,1.5rem);
   width:100%;
-  max-width:min(95vw,450px); /* Increased from 90vw */
-  max-height:94dvh; /* Slightly increased */
+  max-width:min(90vw,420px);
+  max-height:92dvh;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
   border:2px solid rgba(29,185,84,0.3);
   display:flex;
   flex-direction:column;
-  box-sizing:border-box; /* CRITICAL: prevents overflow */
 }
 .music-modal-header{
   display:flex;
@@ -178,13 +176,11 @@ body {
   align-items:center;
   margin-bottom:1rem;
   gap:0.5rem;
-  flex-shrink:0; /* Prevents header compression */
 }
 .music-modal-title{
   color:#1ed760;
   font-size:clamp(0.9rem,3.5vw,1.1rem);
   font-weight:bold;
-  flex-shrink:0;
 }
 .music-close-btn{
   background:none;border:none;color:#fff;
@@ -198,7 +194,6 @@ body {
 .music-close-btn:hover{background:rgba(255,255,255,0.1)}
 .music-tabs{
   display:flex;gap:0.5rem;margin-bottom:1rem;
-  flex-shrink:0;
 }
 .music-tab{
   flex:1;
@@ -212,117 +207,24 @@ body {
 }
 .music-tab.active{background:#1DB954;color:white}
 .music-tab:hover:not(.active){background:rgba(255,255,255,0.2)}
-
-/* ─── FIXED SPOTIFY PLAYER ─── */
-.music-player-container{
-  position:relative;
-  width:100%;
-  height:0; /* Changed: Use padding hack for perfect 16:9 */
-  padding-bottom:56.25%; /* 16:9 aspect ratio */
-  border-radius:12px;
-  overflow:hidden;
-  background:#121212;
-  flex-shrink:0;
-  margin-bottom:0.5rem; /* Prevent sticking */
-}
-
-/* CRITICAL: iFrame now fills parent perfectly */
-.music-player-container iframe{
-  position:absolute;
-  top:0;left:0;
-  width:100% !important;
-  height:100% !important;
-  border:none;
-  display:block;
-  border-radius:12px;
-}
-
-/* ─── ANGHAMI PLAYER (same fix) ─── */
-#anghamiPlayer {
-  position:absolute;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#591194 100%);
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:2rem;
-  box-sizing:border-box;
-  overflow:hidden;
-}
-
-/* Responsive height adjustments */
-@media(max-height:700px){
-  .music-modal-content{max-height:92dvh;}
-}
-@media(max-height:580px){
-  .music-modal-content{max-height:90dvh;padding:0.75rem;}
-  .music-modal-header{margin-bottom:0.75rem;}
-}
-@media(max-height:500px){
-  .music-modal-content{max-height:88dvh;padding:0.5rem;}
-}
-
-/* ─── SAMSUNG/ANDROID SPECIFIC FIXES ─── */
-@supports (-webkit-appearance: none) {
-  .music-player-container {
-    padding-bottom:56.338%; /* Slightly adjusted for WebKit */
-  }
-}
-
-/* ─── S22 ULTRA & SIMILAR (360-430px width) ─── */
-@media(min-width:360px) and (max-width:430px){
-  .music-modal-content{max-width:95vw;max-width:min(95vw,420px);}
-  .music-player-container{padding-bottom:56.25%;}
-}
-
-/* ─── LARGE PHONES (iPhone Pro Max, S23 Ultra) ─── */
-@media(min-width:390px) and (min-height:800px){
-  .music-modal-content{max-width:min(92vw,460px);}
-}
-
-/* ─── LANDSCAPE MODE ─── */
-@media(orientation:landscape) and (max-height:500px){
-  .music-modal-content{
-    max-width:92vw;
-    max-height:96dvh;
-    padding:0.75rem;
-  }
-  .music-player-container{padding-bottom:56.25%;}
-}
-
-/* Music links (unchanged but with better spacing) */
-.music-links{
-  display:flex;flex-direction:column;gap:0.8rem;margin-top:1rem;
-  flex-shrink:0;
-}
-.music-link-btn{
-  display:flex;align-items:center;gap:0.8rem;
-  padding:clamp(0.7rem,3vw,0.8rem) 1rem;
-  border-radius:10px;text-decoration:none;color:white;
-  font-size:clamp(0.85rem,3vw,0.95rem);
-  transition:all 0.2s;min-height:44px;touch-action:manipulation;
-}
-.music-link-btn.spotify{background:#1DB954}
-.music-link-btn.anghami{background:#48085c}
-.music-link-btn:hover{transform:translateX(5px);opacity:0.9}
 /* Player: iframe is taller than container so Spotify's blank bottom is clipped */
 .music-player-container{
   width:100%;
-  height:352px;
+  aspect-ratio:16/9;      /* Maintains perfect video-like ratio */
   border-radius:12px;
   overflow:hidden;
   background:#121212;
   flex-shrink:0;
+  position:relative;      /* Required for iframe positioning */
+  min-height:280px;       /* Ensures it's never too small */
 }
 .music-player-container iframe{
+  position:absolute;      /* Fills container exactly */
+  inset:0;               /* top:0; right:0; bottom:0; left:0 */
   width:100%;
-  height:152%;   /* taller than container — blank bottom gets clipped */
+  height:100%;           /* No more 152% hack */
   border:none;
   display:block;
-  margin-top:-1px;
 }
 @media(max-height:700px){
   .music-player-container{ height:280px; }
@@ -906,9 +808,12 @@ body {
 
 /* ─── SMALL HEIGHT (iPhone SE landscape, short phones) ─── */
 @media(max-height:640px){
-  .photo-frame{max-height:38dvh}
-  .photo-frame img{max-height:38dvh}
-  .music-player-container,.anghami-display{height:clamp(150px,45dvh,220px)}
+  .music-player-container,.anghami-display{
+    aspect-ratio:16/9;
+    height:auto;
+    min-height:200px;
+    max-height:280px;
+}
   .lock-logo{font-size:2rem}
   .keypad{gap:6px;max-width:230px}
   .key{font-size:1.1rem}
@@ -918,14 +823,20 @@ body {
 
 /* ─── SAMSUNG S22 + TYPICAL ANDROID (360–390px wide) ─── */
 @media(min-width:360px) and (max-width:430px){
-  .music-player-container,.anghami-display{height:clamp(230px,40dvh,310px)}
-  .photo-frame{max-width:min(88vw,370px)}
-  .keypad{max-width:270px}
+  .music-player-container,.anghami-display{
+    aspect-ratio:16/9;
+    height:auto;
+    min-height:300px;    /* Perfect height for S22 screen */
+    max-height:380px;
 }
-
 /* ─── LARGE PHONES (iPhone Pro Max, S23 Ultra) ─── */
 @media(min-width:390px) and (min-height:800px){
-  .music-player-container,.anghami-display{height:clamp(260px,42dvh,340px)}
+  .music-player-container,.anghami-display{
+    aspect-ratio:16/9;
+    height:auto;
+    min-height:340px;
+    max-height:420px;
+}
   .photo-frame{max-height:min(54dvh,450px)}
   .photo-frame img{max-height:min(54dvh,450px)}
 }
